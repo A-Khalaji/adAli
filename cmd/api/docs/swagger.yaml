@@ -1,0 +1,65 @@
+basePath: /
+host: localhost:8000
+info:
+  contact: {}
+  description: REST API for AdAli.
+  title: AdAli API
+  version: "1.0"
+paths:
+  /:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Home
+      tags:
+      - Home
+  /admin:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Admin panel
+      tags:
+      - Admin
+  /advertiser:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Advertiser panel
+      tags:
+      - Advertiser
+  /publisher:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Publisher panel
+      tags:
+      - Publisher
+swagger: "2.0"
