@@ -28,6 +28,9 @@ type Program struct {
 }
 
 type ProgramMetaData struct {
+   	Category string `json:"category"`
+   	Keyword string `json:"keyword"`
+
 }
 
 func (m *ProgramMetaData) Scan(value any) error {

@@ -13,10 +13,17 @@ import (
 
 
 func Routes(router *gin.Engine) {
-    router.GET("/", handlers.Home)
-    router.GET("admin/", handlers.Admin)
-    router.GET("advertiser/", handlers.Advertiser)
-	router.GET("publisher/", handlers.Publisher)
-	router.GET("/swagger/*any",ginSwagger.WrapHandler(swaggerFiles.Handler))
+	router.GET("/", handlers.Home)
+
+	router.GET("/admin", handlers.Admin)
+	router.GET("/publisher", handlers.Publisher)
+	router.GET("/advertiser", handlers.Advertiser)
+	
+	router.GET("/programs", handlers.GetPrograms)
+
+	router.GET("/ads", handlers.GetAds)
+
+	
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 }

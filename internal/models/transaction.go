@@ -20,7 +20,7 @@ type Transaction struct {
 	TransactionType   TransactionType   `gorm:"type:transaction_type;not null"`
 	StatusType        StatusType        `gorm:"type:status;not null"`
 	CreatedAt         time.Time
-	UpdatedAt         time.Time
+	CompletedAt         time.Time
 	Metadata          TransactionMetaData `gorm:"type:jsonb"`
 }
 

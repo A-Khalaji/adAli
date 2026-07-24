@@ -1,4 +1,113 @@
 basePath: /
+definitions:
+  models.Ad:
+    properties:
+      adType:
+        $ref: '#/definitions/models.AdType'
+      createdAt:
+        type: string
+      id:
+        type: integer
+      metadata:
+        $ref: '#/definitions/models.AdMetaData'
+      name:
+        type: string
+      program:
+        $ref: '#/definitions/models.Program'
+      programID:
+        type: integer
+      updatedAt:
+        type: string
+      user:
+        $ref: '#/definitions/models.User'
+      userID:
+        type: integer
+    type: object
+  models.AdMetaData:
+    type: object
+  models.AdType:
+    enum:
+    - VIDEO
+    - BANNER
+    - NATIVE
+    type: string
+    x-enum-varnames:
+    - AdTypeVideo
+    - AdTypeBanner
+    - AdTypeNative
+  models.Program:
+    properties:
+      bidPrice:
+        type: number
+      budget:
+        type: number
+      createdAt:
+        type: string
+      description:
+        type: string
+      endDate:
+        type: string
+      id:
+        type: integer
+      isActive:
+        type: boolean
+      isVerified:
+        type: boolean
+      metadata:
+        $ref: '#/definitions/models.ProgramMetaData'
+      name:
+        type: string
+      startDate:
+        type: string
+      updatedAt:
+        type: string
+      user:
+        $ref: '#/definitions/models.User'
+      userID:
+        type: integer
+    type: object
+  models.ProgramMetaData:
+    properties:
+      category:
+        type: string
+      keyword:
+        type: string
+    type: object
+  models.User:
+    properties:
+      createdAt:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      isActive:
+        type: boolean
+      isVerified:
+        type: boolean
+      metadata:
+        $ref: '#/definitions/models.UserMetaData'
+      name:
+        type: string
+      password:
+        type: string
+      updatedAt:
+        type: string
+      userType:
+        $ref: '#/definitions/models.UserType'
+    type: object
+  models.UserMetaData:
+    type: object
+  models.UserType:
+    enum:
+    - ADMIN
+    - PUBLISHER
+    - ADVERTISER
+    type: string
+    x-enum-varnames:
+    - RoleAdmin
+    - RolePublisher
+    - RoleAdvertiser
 host: localhost:8000
 info:
   contact: {}
@@ -34,6 +143,51 @@ paths:
       summary: Admin panel
       tags:
       - Admin
+  /ads:
+    get:
+      parameters:
+      - description: Ads ID
+        in: query
+        name: id
+        type: integer
+      - description: User ID
+        in: query
+        name: user_id
+        type: integer
+      - description: User ID
+        in: query
+        name: program_id
+        type: integer
+      - description: ads Name
+        in: query
+        name: name
+        type: string
+      - description: Is Active
+        in: query
+        name: is_active
+        type: boolean
+      - description: Is Verified
+        in: query
+        name: is_verified
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Ad'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get Ads
+      tags:
+      - Ads
   /advertiser:
     get:
       produces:
@@ -48,6 +202,52 @@ paths:
       summary: Advertiser panel
       tags:
       - Advertiser
+  /programs:
+    get:
+      description: |-
+        Get all programs or filter them using one or more `where` query parameters.
+        Supported operators:
+        :   (equals)
+        !:  (not equals)
+        >   (greater than)
+        >=  (greater than or equal)
+        <   (less than)
+        <=  (less than or equal)
+        ~   (contains, case-insensitive)
+
+        example: /programs?where=is_active:true&where=budget>=100000
+      parameters:
+      - collectionFormat: csv
+        description: Filter expression. Can be repeated.
+        in: query
+        items:
+          type: string
+        name: where
+        type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Program'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get programs
+      tags:
+      - Program
   /publisher:
     get:
       produces:

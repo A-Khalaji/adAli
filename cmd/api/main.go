@@ -1,9 +1,8 @@
 package main
 
 import (
-    "adAli/internal/database"
+	"adAli/internal/database"
 
-    
 	"github.com/gin-gonic/gin"
 )
 
@@ -13,11 +12,12 @@ import (
 // @host            localhost:8000
 // @BasePath        /
 func main() {
-    database.Connect()
-    
+	database.Connect()
+
 	router := gin.Default()
 
 	Routes(router)
 
 	router.Run("localhost:8000")
+
 }

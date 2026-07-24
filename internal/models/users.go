@@ -10,7 +10,7 @@ import (
 
 type User struct {
 	ID         uint     `gorm:"primaryKey"`
-	Name       string   `gorm:"size:100;not null"`
+	Name       string   `gorm:"size:100;not null" queryParam:"name"`
 	Email      string   `gorm:"size:255;uniqueIndex;not null"`
 	Password   string   `gorm:"size:255;not null"`
 	UserType   UserType `gorm:"type:user_Type;not null"`
