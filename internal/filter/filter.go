@@ -102,6 +102,29 @@ func Apply(query *gorm.DB, c *gin.Context, allowedFields map[string]bool) (*gorm
 			)
 		}
 	}
+	orderBy := c.QueryArray("order_by")
+	sort := c.QueryArray("sort")
+	
+	for i, field := range orderBy {
+	
+		field = strings.TrimSpace(field)
+	
+		if !allowedFields[field] {
+			return nil, fmt.Errorf("unknown order field: %s", field)
+		}
+	
+		direction := "asc"
+	
+		if i < len(sort) {
+			direction =strings.TrimSpace(sort[i])
+		}
+	
+		if direction != "asc" && direction != "desc" {
+			return nil, fmt.Errorf("unknown order direction: %s", direction)
+		}
+	
+		query = query.Order(fmt.Sprintf("%s %s", field, direction))
+	}
 
 	return query, nil
 }

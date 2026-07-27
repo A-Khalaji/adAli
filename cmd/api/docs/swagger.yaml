@@ -146,8 +146,9 @@ paths:
   /ads:
     get:
       description: |-
-        Get all ads or filter them using one or more `filter` query parameters.
-        Supported operators:
+        Get all ads or filter and order them using query parameters.
+
+        Filtering operators:
         :   (equals)
         !:  (not equals)
         >   (greater than)
@@ -156,7 +157,12 @@ paths:
         <=  (less than or equal)
         ~   (contains, case-insensitive)
 
-        example: /ads?filter=is_active:true&filter=budget>=100000
+        Examples:
+        /ads?filter=is_active:true
+        /ads?filter=program_id:1
+        /ads?filter=bid_price>=1000
+        /ads?order_by=bid_price&sort=desc
+        /ads?order_by=created_at&order_by=bid_price&sort=desc&sort=asc
       parameters:
       - collectionFormat: csv
         description: Filter expression. Can be repeated.
@@ -164,6 +170,21 @@ paths:
         items:
           type: string
         name: filter
+        type: array
+      - collectionFormat: csv
+        description: Fields to order by. Can be repeated.
+        in: query
+        items:
+          type: string
+        name: order_by
+        type: array
+      - collectionFormat: csv
+        description: Sort direction for each order_by field (asc or desc). Can be
+          repeated.
+        in: query
+        items:
+          type: string
+        name: sort
         type: array
       produces:
       - application/json
@@ -206,8 +227,9 @@ paths:
   /programs:
     get:
       description: |-
-        Get all programs or filter them using one or more `filter` query parameters.
-        Supported operators:
+        Get all programs or filter and order them using query parameters.
+
+        Filtering operators:
         :   (equals)
         !:  (not equals)
         >   (greater than)
@@ -216,7 +238,11 @@ paths:
         <=  (less than or equal)
         ~   (contains, case-insensitive)
 
-        example: /programs?filter=is_active:true&filter=budget>=100000
+        Examples:
+        /programs?filter=is_active:true
+        /programs?filter=budget>=100000
+        /programs?order_by=budget&sort=desc
+        /programs?order_by=budget&order_by=created_at&sort=desc&sort=asc
       parameters:
       - collectionFormat: csv
         description: Filter expression. Can be repeated.
@@ -224,6 +250,21 @@ paths:
         items:
           type: string
         name: filter
+        type: array
+      - collectionFormat: csv
+        description: Fields to order by. Can be repeated.
+        in: query
+        items:
+          type: string
+        name: order_by
+        type: array
+      - collectionFormat: csv
+        description: Sort direction for each order_by field (asc or desc). Can be
+          repeated.
+        in: query
+        items:
+          type: string
+        name: sort
         type: array
       produces:
       - application/json

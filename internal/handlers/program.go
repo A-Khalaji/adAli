@@ -12,8 +12,9 @@ import (
 // GetPrograms godoc
 //
 //	@Summary		Get programs
-//	@Description	Get all programs or filter them using one or more `filter` query parameters.
-//	@Description	Supported operators:
+//	@Description	Get all programs or filter and order them using query parameters.
+//	@Description
+//	@Description	Filtering operators:
 //	@Description	:   (equals)
 //	@Description	!:  (not equals)
 //	@Description	>   (greater than)
@@ -22,10 +23,19 @@ import (
 //	@Description	<=  (less than or equal)
 //	@Description	~   (contains, case-insensitive)
 //	@Description
-//	@Description	example: /programs?filter=is_active:true&filter=budget>=100000
+//	@Description	Examples:
+//	@Description	/programs?filter=is_active:true
+//	@Description	/programs?filter=budget>=100000
+//	@Description	/programs?order_by=budget&sort=desc
+//	@Description	/programs?order_by=budget&order_by=created_at&sort=desc&sort=asc
+//
 //	@Tags			Program
 //	@Produce		json
-//	@Param			filter	query	[]string	false	"Filter expression. Can be repeated."
+//
+//	@Param			filter		query	[]string	false	"Filter expression. Can be repeated."
+//	@Param			order_by	query	[]string	false	"Fields to order by. Can be repeated."
+//	@Param			sort		query	[]string	false	"Sort direction for each order_by field (asc or desc). Can be repeated."
+//
 //	@Success		200		{array}		models.Program
 //	@Failure		400		{object}	map[string]string
 //	@Failure		500		{object}	map[string]string

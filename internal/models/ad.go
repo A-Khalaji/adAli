@@ -19,7 +19,7 @@ type Ad struct {
 
 	Name      string `gorm:"size:100;not null" queryParam:"name"`
 	AdType    AdType `gorm:"type:zone_type;not null" queryParam:"ad_type"`
-	CreatedAt time.Time `gorm: queryParam:"created_at"`
+	CreatedAt time.Time `queryParam:"created_at"`
 	UpdatedAt time.Time
 	Metadata  AdMetaData `gorm:"type:jsonb"`
 }

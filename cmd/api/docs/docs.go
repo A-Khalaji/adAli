@@ -61,7 +61,7 @@ const docTemplate = `{
         },
         "/ads": {
             "get": {
-                "description": "Get all ads or filter them using one or more ` + "`" + `filter` + "`" + ` query parameters.\nSupported operators:\n:   (equals)\n!:  (not equals)\n\u003e   (greater than)\n\u003e=  (greater than or equal)\n\u003c   (less than)\n\u003c=  (less than or equal)\n~   (contains, case-insensitive)\n\nexample: /ads?filter=is_active:true\u0026filter=budget\u003e=100000",
+                "description": "Get all ads or filter and order them using query parameters.\n\nFiltering operators:\n:   (equals)\n!:  (not equals)\n\u003e   (greater than)\n\u003e=  (greater than or equal)\n\u003c   (less than)\n\u003c=  (less than or equal)\n~   (contains, case-insensitive)\n\nExamples:\n/ads?filter=is_active:true\n/ads?filter=program_id:1\n/ads?filter=bid_price\u003e=1000\n/ads?order_by=bid_price\u0026sort=desc\n/ads?order_by=created_at\u0026order_by=bid_price\u0026sort=desc\u0026sort=asc",
                 "produces": [
                     "application/json"
                 ],
@@ -78,6 +78,26 @@ const docTemplate = `{
                         "collectionFormat": "csv",
                         "description": "Filter expression. Can be repeated.",
                         "name": "filter",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "csv",
+                        "description": "Fields to order by. Can be repeated.",
+                        "name": "order_by",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "csv",
+                        "description": "Sort direction for each order_by field (asc or desc). Can be repeated.",
+                        "name": "sort",
                         "in": "query"
                     }
                 ],
@@ -136,7 +156,7 @@ const docTemplate = `{
         },
         "/programs": {
             "get": {
-                "description": "Get all programs or filter them using one or more ` + "`" + `filter` + "`" + ` query parameters.\nSupported operators:\n:   (equals)\n!:  (not equals)\n\u003e   (greater than)\n\u003e=  (greater than or equal)\n\u003c   (less than)\n\u003c=  (less than or equal)\n~   (contains, case-insensitive)\n\nexample: /programs?filter=is_active:true\u0026filter=budget\u003e=100000",
+                "description": "Get all programs or filter and order them using query parameters.\n\nFiltering operators:\n:   (equals)\n!:  (not equals)\n\u003e   (greater than)\n\u003e=  (greater than or equal)\n\u003c   (less than)\n\u003c=  (less than or equal)\n~   (contains, case-insensitive)\n\nExamples:\n/programs?filter=is_active:true\n/programs?filter=budget\u003e=100000\n/programs?order_by=budget\u0026sort=desc\n/programs?order_by=budget\u0026order_by=created_at\u0026sort=desc\u0026sort=asc",
                 "produces": [
                     "application/json"
                 ],
@@ -153,6 +173,26 @@ const docTemplate = `{
                         "collectionFormat": "csv",
                         "description": "Filter expression. Can be repeated.",
                         "name": "filter",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "csv",
+                        "description": "Fields to order by. Can be repeated.",
+                        "name": "order_by",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "csv",
+                        "description": "Sort direction for each order_by field (asc or desc). Can be repeated.",
+                        "name": "sort",
                         "in": "query"
                     }
                 ],
