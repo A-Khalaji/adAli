@@ -9,17 +9,17 @@ import (
 )
 
 type Ad struct {
-	ID uint `gorm:"primaryKey"`
+	ID uint `gorm:"primaryKey" queryParam:"id"`
 
-	UserID uint `gorm:"not null"`
+	UserID uint `gorm:"not null" queryParam:"user_id"`
 	User   User
 
-	ProgramID uint `gorm:"not null"`
+	ProgramID uint `gorm:"not null" queryParam:"program_id"`
 	Program   Program
 
-	Name      string `gorm:"size:100;not null"`
-	AdType    AdType `gorm:"type:zone_type;not null"`
-	CreatedAt time.Time
+	Name      string `gorm:"size:100;not null" queryParam:"name"`
+	AdType    AdType `gorm:"type:zone_type;not null" queryParam:"ad_type"`
+	CreatedAt time.Time `gorm: queryParam:"created_at"`
 	UpdatedAt time.Time
 	Metadata  AdMetaData `gorm:"type:jsonb"`
 }

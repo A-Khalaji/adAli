@@ -55,48 +55,23 @@
         },
         "/ads": {
             "get": {
+                "description": "Get all ads or filter them using one or more `filter` query parameters.\nSupported operators:\n:   (equals)\n!:  (not equals)\n\u003e   (greater than)\n\u003e=  (greater than or equal)\n\u003c   (less than)\n\u003c=  (less than or equal)\n~   (contains, case-insensitive)\n\nexample: /ads?filter=is_active:true\u0026filter=budget\u003e=100000",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "Ads"
+                    "Ad"
                 ],
-                "summary": "Get Ads",
+                "summary": "Get ads",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "Ads ID",
-                        "name": "id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "User ID",
-                        "name": "user_id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "User ID",
-                        "name": "program_id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "ads Name",
-                        "name": "name",
-                        "in": "query"
-                    },
-                    {
-                        "type": "boolean",
-                        "description": "Is Active",
-                        "name": "is_active",
-                        "in": "query"
-                    },
-                    {
-                        "type": "boolean",
-                        "description": "Is Verified",
-                        "name": "is_verified",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "csv",
+                        "description": "Filter expression. Can be repeated.",
+                        "name": "filter",
                         "in": "query"
                     }
                 ],
@@ -107,6 +82,15 @@
                             "type": "array",
                             "items": {
                                 "$ref": "#/definitions/models.Ad"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
                             }
                         }
                     },
@@ -146,7 +130,7 @@
         },
         "/programs": {
             "get": {
-                "description": "Get all programs or filter them using one or more `where` query parameters.\nSupported operators:\n:   (equals)\n!:  (not equals)\n\u003e   (greater than)\n\u003e=  (greater than or equal)\n\u003c   (less than)\n\u003c=  (less than or equal)\n~   (contains, case-insensitive)\n\nexample: /programs?where=is_active:true\u0026where=budget\u003e=100000",
+                "description": "Get all programs or filter them using one or more `filter` query parameters.\nSupported operators:\n:   (equals)\n!:  (not equals)\n\u003e   (greater than)\n\u003e=  (greater than or equal)\n\u003c   (less than)\n\u003c=  (less than or equal)\n~   (contains, case-insensitive)\n\nexample: /programs?filter=is_active:true\u0026filter=budget\u003e=100000",
                 "produces": [
                     "application/json"
                 ],
@@ -162,7 +146,7 @@
                         },
                         "collectionFormat": "csv",
                         "description": "Filter expression. Can be repeated.",
-                        "name": "where",
+                        "name": "filter",
                         "in": "query"
                     }
                 ],

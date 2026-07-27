@@ -145,31 +145,26 @@ paths:
       - Admin
   /ads:
     get:
+      description: |-
+        Get all ads or filter them using one or more `filter` query parameters.
+        Supported operators:
+        :   (equals)
+        !:  (not equals)
+        >   (greater than)
+        >=  (greater than or equal)
+        <   (less than)
+        <=  (less than or equal)
+        ~   (contains, case-insensitive)
+
+        example: /ads?filter=is_active:true&filter=budget>=100000
       parameters:
-      - description: Ads ID
+      - collectionFormat: csv
+        description: Filter expression. Can be repeated.
         in: query
-        name: id
-        type: integer
-      - description: User ID
-        in: query
-        name: user_id
-        type: integer
-      - description: User ID
-        in: query
-        name: program_id
-        type: integer
-      - description: ads Name
-        in: query
-        name: name
-        type: string
-      - description: Is Active
-        in: query
-        name: is_active
-        type: boolean
-      - description: Is Verified
-        in: query
-        name: is_verified
-        type: boolean
+        items:
+          type: string
+        name: filter
+        type: array
       produces:
       - application/json
       responses:
@@ -179,15 +174,21 @@ paths:
             items:
               $ref: '#/definitions/models.Ad'
             type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
         "500":
           description: Internal Server Error
           schema:
             additionalProperties:
               type: string
             type: object
-      summary: Get Ads
+      summary: Get ads
       tags:
-      - Ads
+      - Ad
   /advertiser:
     get:
       produces:
@@ -205,7 +206,7 @@ paths:
   /programs:
     get:
       description: |-
-        Get all programs or filter them using one or more `where` query parameters.
+        Get all programs or filter them using one or more `filter` query parameters.
         Supported operators:
         :   (equals)
         !:  (not equals)
@@ -215,14 +216,14 @@ paths:
         <=  (less than or equal)
         ~   (contains, case-insensitive)
 
-        example: /programs?where=is_active:true&where=budget>=100000
+        example: /programs?filter=is_active:true&filter=budget>=100000
       parameters:
       - collectionFormat: csv
         description: Filter expression. Can be repeated.
         in: query
         items:
           type: string
-        name: where
+        name: filter
         type: array
       produces:
       - application/json

@@ -33,18 +33,7 @@ import (
 func GetPrograms(c *gin.Context) {
 	query := database.DB.Model(&models.Program{}).Preload("User")
 
-	allowedFields := map[string]bool{
-		"id":          true,
-		"user_id":     true,
-		"name":        true,
-		"budget":      true,
-		"bid_price":   true,
-		"start_date":  true,
-		"end_date":    true,
-		"created_at":  true,
-		"is_active":   true,
-		"is_verified": true,
-	}
+	allowedFields := filter.AllowedFields(models.Program{})
 
 	var err error
 
@@ -64,4 +53,5 @@ func GetPrograms(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, programs)
+
 }

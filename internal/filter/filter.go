@@ -2,6 +2,7 @@ package filter
 
 import (
 	"fmt"
+	"reflect"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -103,4 +104,19 @@ func Apply(query *gorm.DB, c *gin.Context, allowedFields map[string]bool) (*gorm
 	}
 
 	return query, nil
+}
+
+func AllowedFields(model any) map[string]bool {
+	fields := make(map[string]bool)
+
+	t := reflect.TypeOf(model)
+
+	for i := 0; i < t.NumField(); i++ {
+		f := t.Field(i)
+
+		if tag := f.Tag.Get("queryParam"); tag != "" {
+			fields[tag] = true
+		}
+	}
+	return fields
 }

@@ -33,17 +33,7 @@ import (
 func GetAds(c *gin.Context) {
 	query := database.DB.Model(&models.Ad{}).Preload("User").Preload("Program")
 
-	allowedFields := map[string]bool{
-		"id":              true,
-		"user_id":         true,
-		"program_id":      true,
-		"name":            true,
-		"ad_type":         true,
-		"destination_url": true,
-		"created_at":      true,
-		"is_active":       true,
-		"is_verified":     true,
-	}
+	allowedFields := filter.AllowedFields(models.Ad{})
 
 	var err error
 
