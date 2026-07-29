@@ -9,17 +9,17 @@ import (
 )
 
 type Report struct {
-	ID uint `gorm:"primaryKey"`
+	ID uint `gorm:"primaryKey" queryParam:"id"`
 
-	ZoneID uint `gorm:"not null"`
+	ZoneID uint `gorm:"not null" queryParam:"zone_id"`
 	Zone   Zone
 
-	AdID uint `gorm:"not null"`
+	AdID uint `gorm:"not null" queryParam:"ad_id"`
 	Ad   Ad
 
-	Views      uint           `gorm:"default:0"`
-	Clicks     uint           `gorm:"default:0"`
-	ReportDate time.Time      `gorm:"not null"`
+	Views      uint           `gorm:"default:0" queryParam:"views"`
+	Clicks     uint           `gorm:"default:0" queryParam:"clicks"`
+	ReportDate time.Time      `gorm:"not null" queryParam:"report_date"`
 	Metadata   ReportMetaData `gorm:"type:jsonb"`
 }
 

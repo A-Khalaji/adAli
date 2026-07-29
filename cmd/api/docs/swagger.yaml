@@ -35,6 +35,20 @@ definitions:
     - AdTypeVideo
     - AdTypeBanner
     - AdTypeNative
+  models.PaymentMethodType:
+    enum:
+    - CARD
+    - BANK_TRANSFER
+    - PAYPAL
+    - CRYPTO
+    - WALLET
+    type: string
+    x-enum-varnames:
+    - TypeCard
+    - TypeBankTransfer
+    - TypePayPal
+    - TypeCrypto
+    - TypeWallet
   models.Program:
     properties:
       bidPrice:
@@ -73,6 +87,109 @@ definitions:
       keyword:
         type: string
     type: object
+  models.Report:
+    properties:
+      ad:
+        $ref: '#/definitions/models.Ad'
+      adID:
+        type: integer
+      clicks:
+        type: integer
+      id:
+        type: integer
+      metadata:
+        $ref: '#/definitions/models.ReportMetaData'
+      reportDate:
+        type: string
+      views:
+        type: integer
+      zone:
+        $ref: '#/definitions/models.Zone'
+      zoneID:
+        type: integer
+    type: object
+  models.ReportMetaData:
+    type: object
+  models.Site:
+    properties:
+      createdAt:
+        type: string
+      domain:
+        type: string
+      id:
+        type: integer
+      identifier:
+        type: string
+      isActive:
+        type: boolean
+      isVerified:
+        type: boolean
+      metadata:
+        $ref: '#/definitions/models.SiteMetaData'
+      name:
+        type: string
+      updatedAt:
+        type: string
+      user:
+        $ref: '#/definitions/models.User'
+      userID:
+        type: integer
+    type: object
+  models.SiteMetaData:
+    type: object
+  models.StatusType:
+    enum:
+    - PENDING
+    - COMPLETED
+    - FAILED
+    - CANCELLED
+    type: string
+    x-enum-varnames:
+    - StatusTypePending
+    - StatusTypeCompleted
+    - StatusTypeFailed
+    - StatusTypeCanceled
+  models.Transaction:
+    properties:
+      amount:
+        type: number
+      completedAt:
+        type: string
+      createdAt:
+        type: string
+      id:
+        type: integer
+      metadata:
+        $ref: '#/definitions/models.TransactionMetaData'
+      name:
+        type: string
+      paymentMethodType:
+        $ref: '#/definitions/models.PaymentMethodType'
+      statusType:
+        $ref: '#/definitions/models.StatusType'
+      transactionType:
+        $ref: '#/definitions/models.TransactionType'
+      user:
+        $ref: '#/definitions/models.User'
+      userID:
+        type: integer
+    type: object
+  models.TransactionMetaData:
+    type: object
+  models.TransactionType:
+    enum:
+    - DEPOSIT
+    - WITHDRAWAL
+    - PROGRAM_PAYMENT
+    - REFUND
+    - PAYOUT
+    type: string
+    x-enum-varnames:
+    - TypeDeposit
+    - TypeWithdrawal
+    - TypeProgramPayment
+    - TypeRefund
+    - TypePayout
   models.User:
     properties:
       createdAt:
@@ -108,6 +225,43 @@ definitions:
     - RoleAdmin
     - RolePublisher
     - RoleAdvertiser
+  models.Zone:
+    properties:
+      createdAt:
+        type: string
+      id:
+        type: integer
+      identifier:
+        type: string
+      metadata:
+        $ref: '#/definitions/models.ZoneMetaData'
+      name:
+        type: string
+      site:
+        $ref: '#/definitions/models.Site'
+      siteID:
+        type: integer
+      updatedAt:
+        type: string
+      user:
+        $ref: '#/definitions/models.User'
+      userID:
+        type: integer
+      zoneType:
+        $ref: '#/definitions/models.ZoneType'
+    type: object
+  models.ZoneMetaData:
+    type: object
+  models.ZoneType:
+    enum:
+    - VIDEO
+    - BANNER
+    - NATIVE
+    type: string
+    x-enum-varnames:
+    - ZoneTypeVideo
+    - ZoneTypeBanner
+    - ZoneTypeNative
 host: localhost:8000
 info:
   contact: {}
@@ -304,4 +458,416 @@ paths:
       summary: Publisher panel
       tags:
       - Publisher
+  /report:
+    get:
+      description: |-
+        Get all report or filter and order them using query parameters.
+
+        Filtering operators:
+        :   (equals)
+        !:  (not equals)
+        >   (greater than)
+        >=  (greater than or equal)
+        <   (less than)
+        <=  (less than or equal)
+        ~   (contains, case-insensitive)
+
+        Examples:
+        /report?filter=is_active:true
+        /report?filter=program_id:1
+        /report?filter=bid_price>=1000
+        /report?order_by=bid_price&sort=desc
+        /report?order_by=created_at&order_by=bid_price&sort=desc&sort=asc
+      parameters:
+      - collectionFormat: csv
+        description: Filter expression. Can be repeated.
+        in: query
+        items:
+          type: string
+        name: filter
+        type: array
+      - collectionFormat: csv
+        description: Fields to order by. Can be repeated.
+        in: query
+        items:
+          type: string
+        name: order_by
+        type: array
+      - collectionFormat: csv
+        description: Sort direction for each order_by field (asc or desc). Can be
+          repeated.
+        in: query
+        items:
+          type: string
+        name: sort
+        type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Report'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get report
+      tags:
+      - Report
+  /site:
+    get:
+      description: |-
+        Get all site or filter and order them using query parameters.
+
+        Filtering operators:
+        :   (equals)
+        !:  (not equals)
+        >   (greater than)
+        >=  (greater than or equal)
+        <   (less than)
+        <=  (less than or equal)
+        ~   (contains, case-insensitive)
+
+        Examples:
+        /site?filter=is_active:true
+        /site?filter=program_id:1
+        /site?filter=bid_price>=1000
+        /site?order_by=bid_price&sort=desc
+        /site?order_by=created_at&order_by=bid_price&sort=desc&sort=asc
+      parameters:
+      - collectionFormat: csv
+        description: Filter expression. Can be repeated.
+        in: query
+        items:
+          type: string
+        name: filter
+        type: array
+      - collectionFormat: csv
+        description: Fields to order by. Can be repeated.
+        in: query
+        items:
+          type: string
+        name: order_by
+        type: array
+      - collectionFormat: csv
+        description: Sort direction for each order_by field (asc or desc). Can be
+          repeated.
+        in: query
+        items:
+          type: string
+        name: sort
+        type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Site'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get site
+      tags:
+      - Site
+  /transaction:
+    get:
+      description: |-
+        Get all transaction or filter and order them using query parameters.
+
+        Filtering operators:
+        :   (equals)
+        !:  (not equals)
+        >   (greater than)
+        >=  (greater than or equal)
+        <   (less than)
+        <=  (less than or equal)
+        ~   (contains, case-insensitive)
+
+        Examples:
+        /transaction?filter=is_active:true
+        /transaction?filter=program_id:1
+        /transaction?filter=bid_price>=1000
+        /transaction?order_by=bid_price&sort=desc
+        /transaction?order_by=created_at&order_by=bid_price&sort=desc&sort=asc
+      parameters:
+      - collectionFormat: csv
+        description: Filter expression. Can be repeated.
+        in: query
+        items:
+          type: string
+        name: filter
+        type: array
+      - collectionFormat: csv
+        description: Fields to order by. Can be repeated.
+        in: query
+        items:
+          type: string
+        name: order_by
+        type: array
+      - collectionFormat: csv
+        description: Sort direction for each order_by field (asc or desc). Can be
+          repeated.
+        in: query
+        items:
+          type: string
+        name: sort
+        type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Transaction'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get transaction
+      tags:
+      - Transaction
+  /users:
+    get:
+      description: |-
+        Get all users or filter and order them using query parameters.
+
+        Filtering operators:
+        :   (equals)
+        !:  (not equals)
+        >   (greater than)
+        >=  (greater than or equal)
+        <   (less than)
+        <=  (less than or equal)
+        ~   (contains, case-insensitive)
+
+        Examples:
+        /users?filter=is_active:true
+        /users?filter=program_id:1
+        /users?filter=bid_price>=1000
+        /users?order_by=bid_price&sort=desc
+        /users?order_by=created_at&order_by=bid_price&sort=desc&sort=asc
+      parameters:
+      - collectionFormat: csv
+        description: Filter expression. Can be repeated.
+        in: query
+        items:
+          type: string
+        name: filter
+        type: array
+      - collectionFormat: csv
+        description: Fields to order by. Can be repeated.
+        in: query
+        items:
+          type: string
+        name: order_by
+        type: array
+      - collectionFormat: csv
+        description: Sort direction for each order_by field (asc or desc). Can be
+          repeated.
+        in: query
+        items:
+          type: string
+        name: sort
+        type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.User'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get users
+      tags:
+      - Users
+  /users/{id}:
+    delete:
+      description: Delete a user by ID.
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete user
+      tags:
+      - Users
+    put:
+      consumes:
+      - application/json
+      description: Update an existing user.
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated user
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update user
+      tags:
+      - Users
+  /zone:
+    get:
+      description: |-
+        Get all zone or filter and order them using query parameters.
+
+        Filtering operators:
+        :   (equals)
+        !:  (not equals)
+        >   (greater than)
+        >=  (greater than or equal)
+        <   (less than)
+        <=  (less than or equal)
+        ~   (contains, case-insensitive)
+
+        Examples:
+        /zone?filter=is_active:true
+        /zone?filter=program_id:1
+        /zone?filter=bid_price>=1000
+        /zone?order_by=bid_price&sort=desc
+        /zone?order_by=created_at&order_by=bid_price&sort=desc&sort=asc
+      parameters:
+      - collectionFormat: csv
+        description: Filter expression. Can be repeated.
+        in: query
+        items:
+          type: string
+        name: filter
+        type: array
+      - collectionFormat: csv
+        description: Fields to order by. Can be repeated.
+        in: query
+        items:
+          type: string
+        name: order_by
+        type: array
+      - collectionFormat: csv
+        description: Sort direction for each order_by field (asc or desc). Can be
+          repeated.
+        in: query
+        items:
+          type: string
+        name: sort
+        type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Zone'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get zone
+      tags:
+      - Zone
 swagger: "2.0"

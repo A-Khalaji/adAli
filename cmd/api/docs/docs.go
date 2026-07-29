@@ -248,6 +248,487 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/report": {
+            "get": {
+                "description": "Get all report or filter and order them using query parameters.\n\nFiltering operators:\n:   (equals)\n!:  (not equals)\n\u003e   (greater than)\n\u003e=  (greater than or equal)\n\u003c   (less than)\n\u003c=  (less than or equal)\n~   (contains, case-insensitive)\n\nExamples:\n/report?filter=is_active:true\n/report?filter=program_id:1\n/report?filter=bid_price\u003e=1000\n/report?order_by=bid_price\u0026sort=desc\n/report?order_by=created_at\u0026order_by=bid_price\u0026sort=desc\u0026sort=asc",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Report"
+                ],
+                "summary": "Get report",
+                "parameters": [
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "csv",
+                        "description": "Filter expression. Can be repeated.",
+                        "name": "filter",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "csv",
+                        "description": "Fields to order by. Can be repeated.",
+                        "name": "order_by",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "csv",
+                        "description": "Sort direction for each order_by field (asc or desc). Can be repeated.",
+                        "name": "sort",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Report"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/site": {
+            "get": {
+                "description": "Get all site or filter and order them using query parameters.\n\nFiltering operators:\n:   (equals)\n!:  (not equals)\n\u003e   (greater than)\n\u003e=  (greater than or equal)\n\u003c   (less than)\n\u003c=  (less than or equal)\n~   (contains, case-insensitive)\n\nExamples:\n/site?filter=is_active:true\n/site?filter=program_id:1\n/site?filter=bid_price\u003e=1000\n/site?order_by=bid_price\u0026sort=desc\n/site?order_by=created_at\u0026order_by=bid_price\u0026sort=desc\u0026sort=asc",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Site"
+                ],
+                "summary": "Get site",
+                "parameters": [
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "csv",
+                        "description": "Filter expression. Can be repeated.",
+                        "name": "filter",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "csv",
+                        "description": "Fields to order by. Can be repeated.",
+                        "name": "order_by",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "csv",
+                        "description": "Sort direction for each order_by field (asc or desc). Can be repeated.",
+                        "name": "sort",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Site"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/transaction": {
+            "get": {
+                "description": "Get all transaction or filter and order them using query parameters.\n\nFiltering operators:\n:   (equals)\n!:  (not equals)\n\u003e   (greater than)\n\u003e=  (greater than or equal)\n\u003c   (less than)\n\u003c=  (less than or equal)\n~   (contains, case-insensitive)\n\nExamples:\n/transaction?filter=is_active:true\n/transaction?filter=program_id:1\n/transaction?filter=bid_price\u003e=1000\n/transaction?order_by=bid_price\u0026sort=desc\n/transaction?order_by=created_at\u0026order_by=bid_price\u0026sort=desc\u0026sort=asc",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "Get transaction",
+                "parameters": [
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "csv",
+                        "description": "Filter expression. Can be repeated.",
+                        "name": "filter",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "csv",
+                        "description": "Fields to order by. Can be repeated.",
+                        "name": "order_by",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "csv",
+                        "description": "Sort direction for each order_by field (asc or desc). Can be repeated.",
+                        "name": "sort",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Transaction"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users": {
+            "get": {
+                "description": "Get all users or filter and order them using query parameters.\n\nFiltering operators:\n:   (equals)\n!:  (not equals)\n\u003e   (greater than)\n\u003e=  (greater than or equal)\n\u003c   (less than)\n\u003c=  (less than or equal)\n~   (contains, case-insensitive)\n\nExamples:\n/users?filter=is_active:true\n/users?filter=program_id:1\n/users?filter=bid_price\u003e=1000\n/users?order_by=bid_price\u0026sort=desc\n/users?order_by=created_at\u0026order_by=bid_price\u0026sort=desc\u0026sort=asc",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get users",
+                "parameters": [
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "csv",
+                        "description": "Filter expression. Can be repeated.",
+                        "name": "filter",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "csv",
+                        "description": "Fields to order by. Can be repeated.",
+                        "name": "order_by",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "csv",
+                        "description": "Sort direction for each order_by field (asc or desc). Can be repeated.",
+                        "name": "sort",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.User"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{id}": {
+            "put": {
+                "description": "Update an existing user.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update user",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "User ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Updated user",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a user by ID.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Delete user",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "User ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/zone": {
+            "get": {
+                "description": "Get all zone or filter and order them using query parameters.\n\nFiltering operators:\n:   (equals)\n!:  (not equals)\n\u003e   (greater than)\n\u003e=  (greater than or equal)\n\u003c   (less than)\n\u003c=  (less than or equal)\n~   (contains, case-insensitive)\n\nExamples:\n/zone?filter=is_active:true\n/zone?filter=program_id:1\n/zone?filter=bid_price\u003e=1000\n/zone?order_by=bid_price\u0026sort=desc\n/zone?order_by=created_at\u0026order_by=bid_price\u0026sort=desc\u0026sort=asc",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Zone"
+                ],
+                "summary": "Get zone",
+                "parameters": [
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "csv",
+                        "description": "Filter expression. Can be repeated.",
+                        "name": "filter",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "csv",
+                        "description": "Fields to order by. Can be repeated.",
+                        "name": "order_by",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "csv",
+                        "description": "Sort direction for each order_by field (asc or desc). Can be repeated.",
+                        "name": "sort",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Zone"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -300,6 +781,23 @@ const docTemplate = `{
                 "AdTypeVideo",
                 "AdTypeBanner",
                 "AdTypeNative"
+            ]
+        },
+        "models.PaymentMethodType": {
+            "type": "string",
+            "enum": [
+                "CARD",
+                "BANK_TRANSFER",
+                "PAYPAL",
+                "CRYPTO",
+                "WALLET"
+            ],
+            "x-enum-varnames": [
+                "TypeCard",
+                "TypeBankTransfer",
+                "TypePayPal",
+                "TypeCrypto",
+                "TypeWallet"
             ]
         },
         "models.Program": {
@@ -360,6 +858,155 @@ const docTemplate = `{
                 }
             }
         },
+        "models.Report": {
+            "type": "object",
+            "properties": {
+                "ad": {
+                    "$ref": "#/definitions/models.Ad"
+                },
+                "adID": {
+                    "type": "integer"
+                },
+                "clicks": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "metadata": {
+                    "$ref": "#/definitions/models.ReportMetaData"
+                },
+                "reportDate": {
+                    "type": "string"
+                },
+                "views": {
+                    "type": "integer"
+                },
+                "zone": {
+                    "$ref": "#/definitions/models.Zone"
+                },
+                "zoneID": {
+                    "type": "integer"
+                }
+            }
+        },
+        "models.ReportMetaData": {
+            "type": "object"
+        },
+        "models.Site": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "domain": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "identifier": {
+                    "type": "string"
+                },
+                "isActive": {
+                    "type": "boolean"
+                },
+                "isVerified": {
+                    "type": "boolean"
+                },
+                "metadata": {
+                    "$ref": "#/definitions/models.SiteMetaData"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "user": {
+                    "$ref": "#/definitions/models.User"
+                },
+                "userID": {
+                    "type": "integer"
+                }
+            }
+        },
+        "models.SiteMetaData": {
+            "type": "object"
+        },
+        "models.StatusType": {
+            "type": "string",
+            "enum": [
+                "PENDING",
+                "COMPLETED",
+                "FAILED",
+                "CANCELLED"
+            ],
+            "x-enum-varnames": [
+                "StatusTypePending",
+                "StatusTypeCompleted",
+                "StatusTypeFailed",
+                "StatusTypeCanceled"
+            ]
+        },
+        "models.Transaction": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "number"
+                },
+                "completedAt": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "metadata": {
+                    "$ref": "#/definitions/models.TransactionMetaData"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "paymentMethodType": {
+                    "$ref": "#/definitions/models.PaymentMethodType"
+                },
+                "statusType": {
+                    "$ref": "#/definitions/models.StatusType"
+                },
+                "transactionType": {
+                    "$ref": "#/definitions/models.TransactionType"
+                },
+                "user": {
+                    "$ref": "#/definitions/models.User"
+                },
+                "userID": {
+                    "type": "integer"
+                }
+            }
+        },
+        "models.TransactionMetaData": {
+            "type": "object"
+        },
+        "models.TransactionType": {
+            "type": "string",
+            "enum": [
+                "DEPOSIT",
+                "WITHDRAWAL",
+                "PROGRAM_PAYMENT",
+                "REFUND",
+                "PAYOUT"
+            ],
+            "x-enum-varnames": [
+                "TypeDeposit",
+                "TypeWithdrawal",
+                "TypeProgramPayment",
+                "TypeRefund",
+                "TypePayout"
+            ]
+        },
         "models.User": {
             "type": "object",
             "properties": {
@@ -409,6 +1056,60 @@ const docTemplate = `{
                 "RoleAdmin",
                 "RolePublisher",
                 "RoleAdvertiser"
+            ]
+        },
+        "models.Zone": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "identifier": {
+                    "type": "string"
+                },
+                "metadata": {
+                    "$ref": "#/definitions/models.ZoneMetaData"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "site": {
+                    "$ref": "#/definitions/models.Site"
+                },
+                "siteID": {
+                    "type": "integer"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "user": {
+                    "$ref": "#/definitions/models.User"
+                },
+                "userID": {
+                    "type": "integer"
+                },
+                "zoneType": {
+                    "$ref": "#/definitions/models.ZoneType"
+                }
+            }
+        },
+        "models.ZoneMetaData": {
+            "type": "object"
+        },
+        "models.ZoneType": {
+            "type": "string",
+            "enum": [
+                "VIDEO",
+                "BANNER",
+                "NATIVE"
+            ],
+            "x-enum-varnames": [
+                "ZoneTypeVideo",
+                "ZoneTypeBanner",
+                "ZoneTypeNative"
             ]
         }
     }

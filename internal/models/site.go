@@ -9,17 +9,17 @@ import (
 )
 
 type Site struct {
-	ID uint `gorm:"primaryKey"`
+	ID uint `gorm:"primaryKey" queryParam:"id"`
 
-	UserID uint `gorm:"not null"`
+	UserID uint `gorm:"not null" queryParam:"user_id"`
 	User   User
 
-	Name       string `gorm:"size:100;not null"`
-	Domain     string `gorm:"size:225;not null"`
-	Identifier string `gorm:"size:100;not null"`
-	IsActive   bool   `gorm:"default:true"`
-	IsVerified bool   `gorm:"default:true"`
-	CreatedAt  time.Time
+	Name       string `gorm:"size:100;not null" queryParam:"name"`
+	Domain     string `gorm:"size:225;not null" queryParam:"domain"`
+	Identifier string `gorm:"size:100;not null" queryParam:"identifier"`
+	IsActive   bool   `gorm:"default:true" queryParam:"is_active"`
+	IsVerified bool   `gorm:"default:true" queryParam:"is_verified"`
+	CreatedAt  time.Time `queryParam:"created_at"`
 	UpdatedAt  time.Time
 	Metadata   SiteMetaData `gorm:"type:jsonb"`
 }

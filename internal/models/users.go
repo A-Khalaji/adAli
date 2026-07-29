@@ -9,14 +9,14 @@ import (
 )
 
 type User struct {
-	ID         uint     `gorm:"primaryKey"`
-	Name       string   `gorm:"size:100;not null"`
-	Email      string   `gorm:"size:255;uniqueIndex;not null"`
+	ID         uint     `gorm:"primaryKey" queryParam:"id"`
+	Name       string   `gorm:"size:100;not null" queryParam:"name"`
+	Email      string   `gorm:"size:255;uniqueIndex;not null" queryParam:"email"`
 	Password   string   `gorm:"size:255;not null"`
-	UserType   UserType `gorm:"type:user_Type;not null"`
-	IsActive   bool     `gorm:"default:true"`
-	IsVerified bool     `gorm:"default:false"`
-	CreatedAt  time.Time
+	UserType   UserType `gorm:"type:user_Type;not null" queryParam:"user_type"`
+	IsActive   bool     `gorm:"default:true" queryParam:"is_active"`
+	IsVerified bool     `gorm:"default:false" queryParam:"is_verified"`
+	CreatedAt  time.Time `queryParam:"created_at"`
 	UpdatedAt  time.Time
 	Metadata   UserMetaData `gorm:"type:jsonb"`
 }

@@ -9,18 +9,18 @@ import (
 )
 
 type Zone struct {
-	ID uint `gorm:"primaryKey"`
+	ID uint `gorm:"primaryKey" queryParam:"id"`
 
-	UserID uint `gorm:"not null"`
+	UserID uint `gorm:"not null" queryParam:"user_id"`
 	User   User
 
-	SiteID uint `gorm:"not null"`
+	SiteID uint `gorm:"not null" queryParam:"site_id"`
 	Site   Site
 
-	Name       string   `gorm:"size:100;not null"`
-	ZoneType   ZoneType `gorm:"type:zone_type;not null"`
-	Identifier string   `gorm:"size:100;not null"`
-	CreatedAt  time.Time
+	Name       string   `gorm:"size:100;not null" queryParam:"name"`
+	ZoneType   ZoneType `gorm:"type:zone_type;not null" queryParam:"zone_type"`
+	Identifier string   `gorm:"size:100;not null" queryParam:"identifier"`
+	CreatedAt  time.Time `queryParam:"created_at"`
 	UpdatedAt  time.Time
 	Metadata   ZoneMetaData `gorm:"type:jsonb"`
 }
