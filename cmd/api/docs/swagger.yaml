@@ -363,7 +363,117 @@ paths:
             type: object
       summary: Get ads
       tags:
-      - Ad
+      - Ads
+    post:
+      consumes:
+      - application/json
+      description: Create a new ad.
+      parameters:
+      - description: Ad
+        in: body
+        name: ad
+        required: true
+        schema:
+          $ref: '#/definitions/models.Ad'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Ad'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create ad
+      tags:
+      - Ads
+  /ads/{id}:
+    delete:
+      description: Delete an ad by ID.
+      parameters:
+      - description: Ad ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete ad
+      tags:
+      - Ads
+    put:
+      consumes:
+      - application/json
+      description: Update an existing ad.
+      parameters:
+      - description: Ad ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated ad
+        in: body
+        name: ad
+        required: true
+        schema:
+          $ref: '#/definitions/models.Ad'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Ad'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update ad
+      tags:
+      - Ads
   /advertiser:
     get:
       produces:
@@ -394,9 +504,10 @@ paths:
 
         Examples:
         /programs?filter=is_active:true
-        /programs?filter=budget>=100000
+        /programs?filter=user_id:1
+        /programs?filter=budget>=1000
         /programs?order_by=budget&sort=desc
-        /programs?order_by=budget&order_by=created_at&sort=desc&sort=asc
+        /programs?order_by=created_at&order_by=budget&sort=desc&sort=asc
       parameters:
       - collectionFormat: csv
         description: Filter expression. Can be repeated.
@@ -443,7 +554,117 @@ paths:
             type: object
       summary: Get programs
       tags:
-      - Program
+      - Programs
+    post:
+      consumes:
+      - application/json
+      description: Create a new program.
+      parameters:
+      - description: Program
+        in: body
+        name: program
+        required: true
+        schema:
+          $ref: '#/definitions/models.Program'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Program'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create program
+      tags:
+      - Programs
+  /programs/{id}:
+    delete:
+      description: Delete a program by ID.
+      parameters:
+      - description: Program ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete program
+      tags:
+      - Programs
+    put:
+      consumes:
+      - application/json
+      description: Update an existing program.
+      parameters:
+      - description: Program ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated program
+        in: body
+        name: program
+        required: true
+        schema:
+          $ref: '#/definitions/models.Program'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Program'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update program
+      tags:
+      - Programs
   /publisher:
     get:
       produces:
@@ -458,7 +679,7 @@ paths:
       summary: Publisher panel
       tags:
       - Publisher
-  /report:
+  /reports:
     get:
       description: |-
         Get all report or filter and order them using query parameters.
@@ -525,10 +746,10 @@ paths:
       summary: Get report
       tags:
       - Report
-  /site:
+  /sites:
     get:
       description: |-
-        Get all site or filter and order them using query parameters.
+        Get all sites or filter and order them using query parameters.
 
         Filtering operators:
         :   (equals)
@@ -540,11 +761,11 @@ paths:
         ~   (contains, case-insensitive)
 
         Examples:
-        /site?filter=is_active:true
-        /site?filter=program_id:1
-        /site?filter=bid_price>=1000
-        /site?order_by=bid_price&sort=desc
-        /site?order_by=created_at&order_by=bid_price&sort=desc&sort=asc
+        /sites?filter=is_active:true
+        /sites?filter=user_id:1
+        /sites?filter=name~example
+        /sites?order_by=created_at&sort=desc
+        /sites?order_by=name&order_by=created_at&sort=asc&sort=desc
       parameters:
       - collectionFormat: csv
         description: Filter expression. Can be repeated.
@@ -589,10 +810,120 @@ paths:
             additionalProperties:
               type: string
             type: object
-      summary: Get site
+      summary: Get sites
       tags:
-      - Site
-  /transaction:
+      - Sites
+    post:
+      consumes:
+      - application/json
+      description: Create a new site.
+      parameters:
+      - description: Site
+        in: body
+        name: site
+        required: true
+        schema:
+          $ref: '#/definitions/models.Site'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Site'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create site
+      tags:
+      - Sites
+  /sites/{id}:
+    delete:
+      description: Delete a site by ID.
+      parameters:
+      - description: Site ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete site
+      tags:
+      - Sites
+    put:
+      consumes:
+      - application/json
+      description: Update an existing site.
+      parameters:
+      - description: Site ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated site
+        in: body
+        name: site
+        required: true
+        schema:
+          $ref: '#/definitions/models.Site'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Site'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update site
+      tags:
+      - Sites
+  /transactions:
     get:
       description: |-
         Get all transaction or filter and order them using query parameters.
@@ -726,6 +1057,39 @@ paths:
       summary: Get users
       tags:
       - Users
+    post:
+      consumes:
+      - application/json
+      description: Create a new user.
+      parameters:
+      - description: User
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.User'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create user
+      tags:
+      - Users
   /users/{id}:
     delete:
       description: Delete a user by ID.
@@ -803,10 +1167,10 @@ paths:
       summary: Update user
       tags:
       - Users
-  /zone:
+  /zones:
     get:
       description: |-
-        Get all zone or filter and order them using query parameters.
+        Get all zones or filter and order them using query parameters.
 
         Filtering operators:
         :   (equals)
@@ -818,11 +1182,11 @@ paths:
         ~   (contains, case-insensitive)
 
         Examples:
-        /zone?filter=is_active:true
-        /zone?filter=program_id:1
-        /zone?filter=bid_price>=1000
-        /zone?order_by=bid_price&sort=desc
-        /zone?order_by=created_at&order_by=bid_price&sort=desc&sort=asc
+        /zones?filter=is_active:true
+        /zones?filter=site_id:1
+        /zones?filter=name~banner
+        /zones?order_by=created_at&sort=desc
+        /zones?order_by=name&order_by=created_at&sort=asc&sort=desc
       parameters:
       - collectionFormat: csv
         description: Filter expression. Can be repeated.
@@ -867,7 +1231,129 @@ paths:
             additionalProperties:
               type: string
             type: object
-      summary: Get zone
+      summary: Get zones
       tags:
-      - Zone
+      - Zones
+    post:
+      consumes:
+      - application/json
+      description: Create a new zone.
+      parameters:
+      - description: Zone
+        in: body
+        name: zone
+        required: true
+        schema:
+          $ref: '#/definitions/models.Zone'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Zone'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create zone
+      tags:
+      - Zones
+  /zones/{id}:
+    delete:
+      description: Delete a zone by ID.
+      parameters:
+      - description: Zone ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete zone
+      tags:
+      - Zones
+    put:
+      consumes:
+      - application/json
+      description: Update an existing zone.
+      parameters:
+      - description: Zone ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated zone
+        in: body
+        name: zone
+        required: true
+        schema:
+          $ref: '#/definitions/models.Zone'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Zone'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update zone
+      tags:
+      - Zones
 swagger: "2.0"
+tags:
+- name: Home
+- name: Admin
+- name: Publisher
+- name: Advertiser
+- name: Users
+- name: Programs
+- name: Ads
+- name: Sites
+- name: Zones
+- name: Report
+- name: Transaction

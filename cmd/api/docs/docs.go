@@ -66,7 +66,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Ad"
+                    "Ads"
                 ],
                 "summary": "Get ads",
                 "parameters": [
@@ -130,6 +130,172 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "post": {
+                "description": "Create a new ad.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Ads"
+                ],
+                "summary": "Create ad",
+                "parameters": [
+                    {
+                        "description": "Ad",
+                        "name": "ad",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Ad"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/models.Ad"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ads/{id}": {
+            "put": {
+                "description": "Update an existing ad.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Ads"
+                ],
+                "summary": "Update ad",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Ad ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Updated ad",
+                        "name": "ad",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Ad"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Ad"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete an ad by ID.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Ads"
+                ],
+                "summary": "Delete ad",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Ad ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
             }
         },
         "/advertiser": {
@@ -156,12 +322,12 @@ const docTemplate = `{
         },
         "/programs": {
             "get": {
-                "description": "Get all programs or filter and order them using query parameters.\n\nFiltering operators:\n:   (equals)\n!:  (not equals)\n\u003e   (greater than)\n\u003e=  (greater than or equal)\n\u003c   (less than)\n\u003c=  (less than or equal)\n~   (contains, case-insensitive)\n\nExamples:\n/programs?filter=is_active:true\n/programs?filter=budget\u003e=100000\n/programs?order_by=budget\u0026sort=desc\n/programs?order_by=budget\u0026order_by=created_at\u0026sort=desc\u0026sort=asc",
+                "description": "Get all programs or filter and order them using query parameters.\n\nFiltering operators:\n:   (equals)\n!:  (not equals)\n\u003e   (greater than)\n\u003e=  (greater than or equal)\n\u003c   (less than)\n\u003c=  (less than or equal)\n~   (contains, case-insensitive)\n\nExamples:\n/programs?filter=is_active:true\n/programs?filter=user_id:1\n/programs?filter=budget\u003e=1000\n/programs?order_by=budget\u0026sort=desc\n/programs?order_by=created_at\u0026order_by=budget\u0026sort=desc\u0026sort=asc",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "Program"
+                    "Programs"
                 ],
                 "summary": "Get programs",
                 "parameters": [
@@ -225,6 +391,172 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "post": {
+                "description": "Create a new program.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Programs"
+                ],
+                "summary": "Create program",
+                "parameters": [
+                    {
+                        "description": "Program",
+                        "name": "program",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Program"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/models.Program"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/programs/{id}": {
+            "put": {
+                "description": "Update an existing program.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Programs"
+                ],
+                "summary": "Update program",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Program ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Updated program",
+                        "name": "program",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Program"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Program"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a program by ID.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Programs"
+                ],
+                "summary": "Delete program",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Program ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
             }
         },
         "/publisher": {
@@ -249,7 +581,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/report": {
+        "/reports": {
             "get": {
                 "description": "Get all report or filter and order them using query parameters.\n\nFiltering operators:\n:   (equals)\n!:  (not equals)\n\u003e   (greater than)\n\u003e=  (greater than or equal)\n\u003c   (less than)\n\u003c=  (less than or equal)\n~   (contains, case-insensitive)\n\nExamples:\n/report?filter=is_active:true\n/report?filter=program_id:1\n/report?filter=bid_price\u003e=1000\n/report?order_by=bid_price\u0026sort=desc\n/report?order_by=created_at\u0026order_by=bid_price\u0026sort=desc\u0026sort=asc",
                 "produces": [
@@ -322,16 +654,16 @@ const docTemplate = `{
                 }
             }
         },
-        "/site": {
+        "/sites": {
             "get": {
-                "description": "Get all site or filter and order them using query parameters.\n\nFiltering operators:\n:   (equals)\n!:  (not equals)\n\u003e   (greater than)\n\u003e=  (greater than or equal)\n\u003c   (less than)\n\u003c=  (less than or equal)\n~   (contains, case-insensitive)\n\nExamples:\n/site?filter=is_active:true\n/site?filter=program_id:1\n/site?filter=bid_price\u003e=1000\n/site?order_by=bid_price\u0026sort=desc\n/site?order_by=created_at\u0026order_by=bid_price\u0026sort=desc\u0026sort=asc",
+                "description": "Get all sites or filter and order them using query parameters.\n\nFiltering operators:\n:   (equals)\n!:  (not equals)\n\u003e   (greater than)\n\u003e=  (greater than or equal)\n\u003c   (less than)\n\u003c=  (less than or equal)\n~   (contains, case-insensitive)\n\nExamples:\n/sites?filter=is_active:true\n/sites?filter=user_id:1\n/sites?filter=name~example\n/sites?order_by=created_at\u0026sort=desc\n/sites?order_by=name\u0026order_by=created_at\u0026sort=asc\u0026sort=desc",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "Site"
+                    "Sites"
                 ],
-                "summary": "Get site",
+                "summary": "Get sites",
                 "parameters": [
                     {
                         "type": "array",
@@ -393,9 +725,175 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "post": {
+                "description": "Create a new site.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Sites"
+                ],
+                "summary": "Create site",
+                "parameters": [
+                    {
+                        "description": "Site",
+                        "name": "site",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Site"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/models.Site"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
             }
         },
-        "/transaction": {
+        "/sites/{id}": {
+            "put": {
+                "description": "Update an existing site.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Sites"
+                ],
+                "summary": "Update site",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Site ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Updated site",
+                        "name": "site",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Site"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Site"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a site by ID.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Sites"
+                ],
+                "summary": "Delete site",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Site ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/transactions": {
             "get": {
                 "description": "Get all transaction or filter and order them using query parameters.\n\nFiltering operators:\n:   (equals)\n!:  (not equals)\n\u003e   (greater than)\n\u003e=  (greater than or equal)\n\u003c   (less than)\n\u003c=  (less than or equal)\n~   (contains, case-insensitive)\n\nExamples:\n/transaction?filter=is_active:true\n/transaction?filter=program_id:1\n/transaction?filter=bid_price\u003e=1000\n/transaction?order_by=bid_price\u0026sort=desc\n/transaction?order_by=created_at\u0026order_by=bid_price\u0026sort=desc\u0026sort=asc",
                 "produces": [
@@ -539,6 +1037,56 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "post": {
+                "description": "Create a new user.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Create user",
+                "parameters": [
+                    {
+                        "description": "User",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
             }
         },
         "/users/{id}": {
@@ -657,16 +1205,16 @@ const docTemplate = `{
                 }
             }
         },
-        "/zone": {
+        "/zones": {
             "get": {
-                "description": "Get all zone or filter and order them using query parameters.\n\nFiltering operators:\n:   (equals)\n!:  (not equals)\n\u003e   (greater than)\n\u003e=  (greater than or equal)\n\u003c   (less than)\n\u003c=  (less than or equal)\n~   (contains, case-insensitive)\n\nExamples:\n/zone?filter=is_active:true\n/zone?filter=program_id:1\n/zone?filter=bid_price\u003e=1000\n/zone?order_by=bid_price\u0026sort=desc\n/zone?order_by=created_at\u0026order_by=bid_price\u0026sort=desc\u0026sort=asc",
+                "description": "Get all zones or filter and order them using query parameters.\n\nFiltering operators:\n:   (equals)\n!:  (not equals)\n\u003e   (greater than)\n\u003e=  (greater than or equal)\n\u003c   (less than)\n\u003c=  (less than or equal)\n~   (contains, case-insensitive)\n\nExamples:\n/zones?filter=is_active:true\n/zones?filter=site_id:1\n/zones?filter=name~banner\n/zones?order_by=created_at\u0026sort=desc\n/zones?order_by=name\u0026order_by=created_at\u0026sort=asc\u0026sort=desc",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "Zone"
+                    "Zones"
                 ],
-                "summary": "Get zone",
+                "summary": "Get zones",
                 "parameters": [
                     {
                         "type": "array",
@@ -711,6 +1259,172 @@ const docTemplate = `{
                     },
                     "400": {
                         "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new zone.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Zones"
+                ],
+                "summary": "Create zone",
+                "parameters": [
+                    {
+                        "description": "Zone",
+                        "name": "zone",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Zone"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/models.Zone"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/zones/{id}": {
+            "put": {
+                "description": "Update an existing zone.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Zones"
+                ],
+                "summary": "Update zone",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Zone ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Updated zone",
+                        "name": "zone",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Zone"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Zone"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a zone by ID.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Zones"
+                ],
+                "summary": "Delete zone",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Zone ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
                         "schema": {
                             "type": "object",
                             "additionalProperties": {
@@ -1112,7 +1826,42 @@ const docTemplate = `{
                 "ZoneTypeNative"
             ]
         }
-    }
+    },
+    "tags": [
+        {
+            "name": "Home"
+        },
+        {
+            "name": "Admin"
+        },
+        {
+            "name": "Publisher"
+        },
+        {
+            "name": "Advertiser"
+        },
+        {
+            "name": "Users"
+        },
+        {
+            "name": "Programs"
+        },
+        {
+            "name": "Ads"
+        },
+        {
+            "name": "Sites"
+        },
+        {
+            "name": "Zones"
+        },
+        {
+            "name": "Report"
+        },
+        {
+            "name": "Transaction"
+        }
+    ]
 }`
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it

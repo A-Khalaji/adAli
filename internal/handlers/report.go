@@ -40,7 +40,7 @@ import (
 //	@Success		200		{array}		models.Report
 //	@Failure		400		{object}	map[string]string
 //	@Failure		500		{object}	map[string]string
-//	@Router			/report [get]
+// @Router /reports [get]
 func GetReport(c *gin.Context) {
 	query := database.DB.Model(&models.Report{}).Preload("Zone").Preload("Ad")
 

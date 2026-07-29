@@ -30,7 +30,7 @@ import (
 //	@Description	/ads?order_by=bid_price&sort=desc
 //	@Description	/ads?order_by=created_at&order_by=bid_price&sort=desc&sort=asc
 //
-//	@Tags			Ad
+//	@Tags			Ads
 //	@Produce		json
 //
 //	@Param			filter		query	[]string	false	"Filter expression. Can be repeated."
@@ -42,7 +42,9 @@ import (
 //	@Failure		500		{object}	map[string]string
 //	@Router			/ads [get]
 func GetAds(c *gin.Context) {
-	query := database.DB.Model(&models.Ad{}).Preload("User").Preload("Program")
+	query := database.DB.Model(&models.Ad{}).
+		Preload("User").
+		Preload("Program")
 
 	allowedFields := filter.AllowedFields(models.Ad{})
 
@@ -55,6 +57,7 @@ func GetAds(c *gin.Context) {
 		})
 		return
 	}
+
 	var ads []models.Ad
 
 	if err := query.Find(&ads).Error; err != nil {
@@ -63,5 +66,121 @@ func GetAds(c *gin.Context) {
 		})
 		return
 	}
+
 	c.JSON(http.StatusOK, ads)
+}
+
+// CreateAd godoc
+//
+//	@Summary		Create ad
+//	@Description	Create a new ad.
+//	@Tags			Ads
+//	@Accept			json
+//	@Produce		json
+//
+//	@Param			ad	body		models.Ad	true	"Ad"
+//
+//	@Success		201		{object}	models.Ad
+//	@Failure		400		{object}	map[string]string
+//	@Failure		500		{object}	map[string]string
+//	@Router			/ads [post]
+func CreateAd(c *gin.Context) {
+	var ad models.Ad
+
+	if err := c.ShouldBindJSON(&ad); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	if err := database.DB.Create(&ad).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusCreated, ad)
+}
+
+// UpdateAd godoc
+//
+//	@Summary		Update ad
+//	@Description	Update an existing ad.
+//	@Tags			Ads
+//	@Accept			json
+//	@Produce		json
+//
+//	@Param			id	path		int			true	"Ad ID"
+//	@Param			ad	body		models.Ad	true	"Updated ad"
+//
+//	@Success		200		{object}	models.Ad
+//	@Failure		400		{object}	map[string]string
+//	@Failure		404		{object}	map[string]string
+//	@Failure		500		{object}	map[string]string
+//	@Router			/ads/{id} [put]
+func UpdateAd(c *gin.Context) {
+	id := c.Param("id")
+
+	var ad models.Ad
+	if err := database.DB.First(&ad, id).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"error": "ad not found",
+		})
+		return
+	}
+
+	var updatedAd models.Ad
+	if err := c.ShouldBindJSON(&updatedAd); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	if err := database.DB.Model(&ad).Updates(updatedAd).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, ad)
+}
+
+// DeleteAd godoc
+//
+//	@Summary		Delete ad
+//	@Description	Delete an ad by ID.
+//	@Tags			Ads
+//	@Produce		json
+//
+//	@Param			id	path		int	true	"Ad ID"
+//
+//	@Success		200	{object}	map[string]string
+//	@Failure		404	{object}	map[string]string
+//	@Failure		500	{object}	map[string]string
+//	@Router			/ads/{id} [delete]
+func DeleteAd(c *gin.Context) {
+	id := c.Param("id")
+
+	var ad models.Ad
+	if err := database.DB.First(&ad, id).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"error": "ad not found",
+		})
+		return
+	}
+
+	if err := database.DB.Delete(&ad).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Ad deleted successfully",
+	})
 }

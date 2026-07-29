@@ -40,7 +40,7 @@ import (
 //	@Success		200		{array}		models.Transaction
 //	@Failure		400		{object}	map[string]string
 //	@Failure		500		{object}	map[string]string
-//	@Router			/transaction [get]
+//	@Router			/transactions [get]
 func GetTransaction(c *gin.Context) {
 	query := database.DB.Model(&models.Transaction{}).Preload("User")
 

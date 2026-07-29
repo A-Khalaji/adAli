@@ -11,8 +11,8 @@ import (
 
 // GetSite godoc
 //
-//	@Summary		Get site
-//	@Description	Get all site or filter and order them using query parameters.
+//	@Summary		Get sites
+//	@Description	Get all sites or filter and order them using query parameters.
 //	@Description
 //	@Description	Filtering operators:
 //	@Description	:   (equals)
@@ -24,13 +24,13 @@ import (
 //	@Description	~   (contains, case-insensitive)
 //	@Description
 //	@Description	Examples:
-//	@Description	/site?filter=is_active:true
-//	@Description	/site?filter=program_id:1
-//	@Description	/site?filter=bid_price>=1000
-//	@Description	/site?order_by=bid_price&sort=desc
-//	@Description	/site?order_by=created_at&order_by=bid_price&sort=desc&sort=asc
+//	@Description	/sites?filter=is_active:true
+//	@Description	/sites?filter=user_id:1
+//	@Description	/sites?filter=name~example
+//	@Description	/sites?order_by=created_at&sort=desc
+//	@Description	/sites?order_by=name&order_by=created_at&sort=asc&sort=desc
 //
-//	@Tags			Site
+//	@Tags			Sites
 //	@Produce		json
 //
 //	@Param			filter		query	[]string	false	"Filter expression. Can be repeated."
@@ -40,7 +40,7 @@ import (
 //	@Success		200		{array}		models.Site
 //	@Failure		400		{object}	map[string]string
 //	@Failure		500		{object}	map[string]string
-//	@Router			/site [get]
+//	@Router			/sites [get]
 func GetSite(c *gin.Context) {
 	query := database.DB.Model(&models.Site{}).Preload("User")
 
@@ -55,13 +55,130 @@ func GetSite(c *gin.Context) {
 		})
 		return
 	}
-	var site []models.Site
 
-	if err := query.Find(&site).Error; err != nil {
+	var sites []models.Site
+
+	if err := query.Find(&sites).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})
 		return
 	}
+
+	c.JSON(http.StatusOK, sites)
+}
+
+// CreateSite godoc
+//
+//	@Summary		Create site
+//	@Description	Create a new site.
+//	@Tags			Sites
+//	@Accept			json
+//	@Produce		json
+//
+//	@Param			site	body		models.Site	true	"Site"
+//
+//	@Success		201		{object}	models.Site
+//	@Failure		400		{object}	map[string]string
+//	@Failure		500		{object}	map[string]string
+//	@Router			/sites [post]
+func CreateSite(c *gin.Context) {
+	var site models.Site
+
+	if err := c.ShouldBindJSON(&site); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	if err := database.DB.Create(&site).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusCreated, site)
+}
+
+// UpdateSite godoc
+//
+//	@Summary		Update site
+//	@Description	Update an existing site.
+//	@Tags			Sites
+//	@Accept			json
+//	@Produce		json
+//
+//	@Param			id		path		int			true	"Site ID"
+//	@Param			site	body		models.Site	true	"Updated site"
+//
+//	@Success		200		{object}	models.Site
+//	@Failure		400		{object}	map[string]string
+//	@Failure		404		{object}	map[string]string
+//	@Failure		500		{object}	map[string]string
+//	@Router			/sites/{id} [put]
+func UpdateSite(c *gin.Context) {
+	id := c.Param("id")
+
+	var site models.Site
+	if err := database.DB.First(&site, id).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"error": "site not found",
+		})
+		return
+	}
+
+	var updatedSite models.Site
+	if err := c.ShouldBindJSON(&updatedSite); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	if err := database.DB.Model(&site).Updates(updatedSite).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
 	c.JSON(http.StatusOK, site)
+}
+
+// DeleteSite godoc
+//
+//	@Summary		Delete site
+//	@Description	Delete a site by ID.
+//	@Tags			Sites
+//	@Produce		json
+//
+//	@Param			id	path		int	true	"Site ID"
+//
+//	@Success		200	{object}	map[string]string
+//	@Failure		404	{object}	map[string]string
+//	@Failure		500	{object}	map[string]string
+//	@Router			/sites/{id} [delete]
+func DeleteSite(c *gin.Context) {
+	id := c.Param("id")
+
+	var site models.Site
+	if err := database.DB.First(&site, id).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"error": "site not found",
+		})
+		return
+	}
+
+	if err := database.DB.Delete(&site).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Site deleted successfully",
+	})
 }

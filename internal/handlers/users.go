@@ -40,7 +40,10 @@ import (
 //	@Success		200		{array}		models.User
 //	@Failure		400		{object}	map[string]string
 //	@Failure		500		{object}	map[string]string
-//	@Router			/users [get]
+// @Router /users [get]
+// @Router /users [post]
+// @Router /users/{id} [put]
+// @Router /users/{id} [delete]
 func GetUsers(c *gin.Context) {
 	query := database.DB.Model(&models.User{})
 
@@ -64,6 +67,40 @@ func GetUsers(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, users)
+}
+
+// CreateUser godoc
+//
+//	@Summary		Create user
+//	@Description	Create a new user.
+//	@Tags			Users
+//	@Accept			json
+//	@Produce		json
+//
+//	@Param			user	body		models.User	true	"User"
+//
+//	@Success		201		{object}	models.User
+//	@Failure		400		{object}	map[string]string
+//	@Failure		500		{object}	map[string]string
+//	@Router			/users [post]
+func CreateUser(c *gin.Context) {
+	var user models.User
+
+	if err := c.ShouldBindJSON(&user); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	if err := database.DB.Create(&user).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusCreated, user)
 }
 
 // UpdateUser godoc
@@ -110,7 +147,6 @@ func UpdateUser(c *gin.Context) {
 
 	c.JSON(http.StatusOK, user)
 }
-
 
 // DeleteUser godoc
 //
