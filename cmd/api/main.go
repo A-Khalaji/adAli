@@ -23,7 +23,8 @@ import (
 // @tag.name        Report
 // @tag.name        Transaction
 func main() {
-	database.Connect()
+    database.Connect()
+	database.ConnectRedis()
 
 	router := gin.Default()
 
