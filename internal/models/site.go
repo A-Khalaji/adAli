@@ -9,36 +9,41 @@ import (
 )
 
 type Site struct {
-	ID uint `gorm:"primaryKey" queryParam:"id"`
+	ID uint `gorm:"primaryKey" queryParam:"id" json:"id"`
 
-	UserID uint `gorm:"not null" queryParam:"user_id"`
-	User   User
+	UserID uint `gorm:"not null" queryParam:"user_id" json:"user_id"`
+	User   User `gorm:"foreignKey:UserID" json:"user"`
 
-	Name       string `gorm:"size:100;not null" queryParam:"name"`
-	Domain     string `gorm:"size:225;not null" queryParam:"domain"`
-	Identifier string `gorm:"size:100;not null" queryParam:"identifier"`
-	IsActive   bool   `gorm:"default:true" queryParam:"is_active"`
-	IsVerified bool   `gorm:"default:true" queryParam:"is_verified"`
-	CreatedAt  time.Time `queryParam:"created_at"`
-	UpdatedAt  time.Time
-	Metadata   SiteMetaData `gorm:"type:jsonb"`
+	Name string `gorm:"size:100;not null" queryParam:"name" json:"name"`
+	Domain string `gorm:"size:225;not null" queryParam:"domain" json:"domain"`
+	Identifier string `gorm:"size:100;not null" queryParam:"identifier" json:"identifier"`
+	IsActive bool `gorm:"default:true" queryParam:"is_active" json:"is_active"`
+	IsVerified bool `gorm:"default:true" queryParam:"is_verified" json:"is_verified"`
+	CreatedAt time.Time `queryParam:"created_at" json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
+	Metadata SiteMetaData `gorm:"type:jsonb" json:"metadata"`
 }
+
 
 type SiteMetaData struct {
 }
+
 
 func (m *SiteMetaData) Scan(value any) error {
 	if value == nil {
 		*m = SiteMetaData{}
 		return nil
 	}
+
 	data, ok := value.([]byte)
 	if !ok {
 		return errors.New(fmt.Sprint("Failed to unmarshal JSONB value:", value))
 	}
+
 	return json.Unmarshal(data, m)
 }
 
-func (m *SiteMetaData) Value() (driver.Value, error) {
+
+func (m SiteMetaData) Value() (driver.Value, error) {
 	return json.Marshal(m)
 }

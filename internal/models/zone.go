@@ -9,20 +9,22 @@ import (
 )
 
 type Zone struct {
-	ID uint `gorm:"primaryKey" queryParam:"id"`
+	ID uint `gorm:"primaryKey" queryParam:"id" json:"id"`
 
-	UserID uint `gorm:"not null" queryParam:"user_id"`
-	User   User
+	UserID uint `gorm:"not null" queryParam:"user_id" json:"user_id"`
+	User   User `gorm:"foreignKey:UserID" json:"user"`
 
-	SiteID uint `gorm:"not null" queryParam:"site_id"`
-	Site   Site
+	SiteID uint `gorm:"not null" queryParam:"site_id" json:"site_id"`
+	Site   Site `gorm:"foreignKey:SiteID" json:"site"`
 
-	Name       string   `gorm:"size:100;not null" queryParam:"name"`
-	ZoneType   ZoneType `gorm:"type:zone_type;not null" queryParam:"zone_type"`
-	Identifier string   `gorm:"size:100;not null" queryParam:"identifier"`
-	CreatedAt  time.Time `queryParam:"created_at"`
-	UpdatedAt  time.Time
-	Metadata   ZoneMetaData `gorm:"type:jsonb"`
+	Name       string   `gorm:"size:100;not null" queryParam:"name" json:"name"`
+	ZoneType   ZoneType `gorm:"type:zone_type;not null" queryParam:"zone_type" json:"zone_type"`
+	Identifier string   `gorm:"size:100;not null" queryParam:"identifier" json:"identifier"`
+
+	CreatedAt time.Time `queryParam:"created_at" json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
+
+	Metadata ZoneMetaData `gorm:"type:jsonb" json:"metadata"`
 }
 
 type ZoneType string
