@@ -99,6 +99,13 @@ func CreateProgram(c *gin.Context) {
 		return
 	}
 
+	// if err := cache.SetProgram(program); err != nil {
+	// 	c.JSON(http.StatusInternalServerError, gin.H{
+	// 		"error": "failed to save program cache" + err.Error(),
+	// 	})
+	// 	return
+	// }
+
 	c.JSON(http.StatusCreated, program)
 }
 
