@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"adAli/internal/cache"
 	"adAli/internal/database"
 	"adAli/internal/filter"
 	"adAli/internal/models"
@@ -101,6 +102,13 @@ func CreateZone(c *gin.Context) {
 		return
 	}
 
+	if err := cache.SetZone(zone); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
 	c.JSON(http.StatusCreated, zone)
 }
 
@@ -146,6 +154,13 @@ func UpdateZone(c *gin.Context) {
 		return
 	}
 
+	if err := cache.UpZone(zone); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
 	c.JSON(http.StatusOK, zone)
 }
 
@@ -174,6 +189,13 @@ func DeleteZone(c *gin.Context) {
 	}
 
 	if err := database.DB.Delete(&zone).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	if err := cache.DelZone(zone.ID); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})

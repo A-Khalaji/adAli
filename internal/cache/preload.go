@@ -27,6 +27,28 @@ func Preload() error {
 			return err
 		}
 	}
+	
+	var sites []models.Site
+	if err := database.DB.Find(&sites).Error; err != nil {
+		return err
+	}
+
+	for _, site := range sites {
+		if err := SetSite(site); err != nil {
+			return err
+		}
+	}
+	
+	var zones []models.Zone
+	if err := database.DB.Find(&zones).Error; err != nil {
+		return err
+	}
+
+	for _, zone := range zones {
+		if err := SetZone(zone); err != nil {
+			return err
+		}
+	}
 
 	return nil
 }

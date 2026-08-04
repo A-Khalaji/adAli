@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"adAli/internal/cache"
 	"adAli/internal/database"
 	"adAli/internal/filter"
 	"adAli/internal/models"
@@ -99,6 +100,13 @@ func CreateSite(c *gin.Context) {
 		return
 	}
 
+	if err := cache.SetSite(site); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
 	c.JSON(http.StatusCreated, site)
 }
 
@@ -144,6 +152,13 @@ func UpdateSite(c *gin.Context) {
 		return
 	}
 
+	if err := cache.UpSite(site); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
 	c.JSON(http.StatusOK, site)
 }
 
@@ -172,6 +187,13 @@ func DeleteSite(c *gin.Context) {
 	}
 
 	if err := database.DB.Delete(&site).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	if err := cache.DelSite(site.ID); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})
