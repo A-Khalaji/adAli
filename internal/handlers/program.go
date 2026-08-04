@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"adAli/internal/cache"
 	"adAli/internal/database"
 	"adAli/internal/filter"
 	"adAli/internal/models"
@@ -99,12 +100,12 @@ func CreateProgram(c *gin.Context) {
 		return
 	}
 
-	// if err := cache.SetProgram(program); err != nil {
-	// 	c.JSON(http.StatusInternalServerError, gin.H{
-	// 		"error": "failed to save program cache" + err.Error(),
-	// 	})
-	// 	return
-	// }
+	if err := cache.SetProgram(program); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
 
 	c.JSON(http.StatusCreated, program)
 }
@@ -151,6 +152,13 @@ func UpdateProgram(c *gin.Context) {
 		return
 	}
 
+	if err := cache.UpProgram(program); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
 	c.JSON(http.StatusOK, program)
 }
 
@@ -179,6 +187,13 @@ func DeleteProgram(c *gin.Context) {
 	}
 
 	if err := database.DB.Delete(&program).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	if err := cache.DelProgram(program.ID); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})

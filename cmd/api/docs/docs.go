@@ -1449,10 +1449,10 @@ const docTemplate = `{
         "models.Ad": {
             "type": "object",
             "properties": {
-                "adType": {
+                "ad_type": {
                     "$ref": "#/definitions/models.AdType"
                 },
-                "createdAt": {
+                "created_at": {
                     "type": "string"
                 },
                 "id": {
@@ -1467,16 +1467,16 @@ const docTemplate = `{
                 "program": {
                     "$ref": "#/definitions/models.Program"
                 },
-                "programID": {
+                "program_id": {
                     "type": "integer"
                 },
-                "updatedAt": {
+                "updated_at": {
                     "type": "string"
                 },
                 "user": {
                     "$ref": "#/definitions/models.User"
                 },
-                "userID": {
+                "user_id": {
                     "type": "integer"
                 }
             }
@@ -1517,28 +1517,28 @@ const docTemplate = `{
         "models.Program": {
             "type": "object",
             "properties": {
-                "bidPrice": {
+                "bid_price": {
                     "type": "number"
                 },
                 "budget": {
                     "type": "number"
                 },
-                "createdAt": {
+                "created_at": {
                     "type": "string"
                 },
                 "description": {
                     "type": "string"
                 },
-                "endDate": {
+                "end_date": {
                     "type": "string"
                 },
                 "id": {
                     "type": "integer"
                 },
-                "isActive": {
+                "is_active": {
                     "type": "boolean"
                 },
-                "isVerified": {
+                "is_verified": {
                     "type": "boolean"
                 },
                 "metadata": {
@@ -1547,16 +1547,16 @@ const docTemplate = `{
                 "name": {
                     "type": "string"
                 },
-                "startDate": {
+                "start_date": {
                     "type": "string"
                 },
-                "updatedAt": {
+                "updated_at": {
                     "type": "string"
                 },
                 "user": {
                     "$ref": "#/definitions/models.User"
                 },
-                "userID": {
+                "user_id": {
                     "type": "integer"
                 }
             }
@@ -1610,7 +1610,7 @@ const docTemplate = `{
         "models.Site": {
             "type": "object",
             "properties": {
-                "createdAt": {
+                "created_at": {
                     "type": "string"
                 },
                 "domain": {
@@ -1622,10 +1622,10 @@ const docTemplate = `{
                 "identifier": {
                     "type": "string"
                 },
-                "isActive": {
+                "is_active": {
                     "type": "boolean"
                 },
-                "isVerified": {
+                "is_verified": {
                     "type": "boolean"
                 },
                 "metadata": {
@@ -1634,13 +1634,13 @@ const docTemplate = `{
                 "name": {
                     "type": "string"
                 },
-                "updatedAt": {
+                "updated_at": {
                     "type": "string"
                 },
                 "user": {
                     "$ref": "#/definitions/models.User"
                 },
-                "userID": {
+                "user_id": {
                     "type": "integer"
                 }
             }
@@ -1724,7 +1724,7 @@ const docTemplate = `{
         "models.User": {
             "type": "object",
             "properties": {
-                "createdAt": {
+                "created_at": {
                     "type": "string"
                 },
                 "email": {
@@ -1733,10 +1733,10 @@ const docTemplate = `{
                 "id": {
                     "type": "integer"
                 },
-                "isActive": {
+                "is_active": {
                     "type": "boolean"
                 },
-                "isVerified": {
+                "is_verified": {
                     "type": "boolean"
                 },
                 "metadata": {
@@ -1748,10 +1748,10 @@ const docTemplate = `{
                 "password": {
                     "type": "string"
                 },
-                "updatedAt": {
+                "updated_at": {
                     "type": "string"
                 },
-                "userType": {
+                "user_type": {
                     "$ref": "#/definitions/models.UserType"
                 }
             }
@@ -1775,7 +1775,7 @@ const docTemplate = `{
         "models.Zone": {
             "type": "object",
             "properties": {
-                "createdAt": {
+                "created_at": {
                     "type": "string"
                 },
                 "id": {
@@ -1793,19 +1793,19 @@ const docTemplate = `{
                 "site": {
                     "$ref": "#/definitions/models.Site"
                 },
-                "siteID": {
+                "site_id": {
                     "type": "integer"
                 },
-                "updatedAt": {
+                "updated_at": {
                     "type": "string"
                 },
                 "user": {
                     "$ref": "#/definitions/models.User"
                 },
-                "userID": {
+                "user_id": {
                     "type": "integer"
                 },
-                "zoneType": {
+                "zone_type": {
                     "$ref": "#/definitions/models.ZoneType"
                 }
             }

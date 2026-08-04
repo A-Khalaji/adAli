@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"adAli/internal/cache"
 	"adAli/internal/database"
 	"adAli/internal/filter"
 	"adAli/internal/models"
@@ -101,6 +102,13 @@ func CreateAd(c *gin.Context) {
 		return
 	}
 
+	if err := cache.SetAd(ad); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
 	c.JSON(http.StatusCreated, ad)
 }
 
@@ -146,6 +154,13 @@ func UpdateAd(c *gin.Context) {
 		return
 	}
 
+	if err := cache.UpAd(ad); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
 	c.JSON(http.StatusOK, ad)
 }
 
@@ -174,6 +189,13 @@ func DeleteAd(c *gin.Context) {
 	}
 
 	if err := database.DB.Delete(&ad).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	if err := cache.DelAd(ad.ID); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})

@@ -2,9 +2,9 @@ basePath: /
 definitions:
   models.Ad:
     properties:
-      adType:
+      ad_type:
         $ref: '#/definitions/models.AdType'
-      createdAt:
+      created_at:
         type: string
       id:
         type: integer
@@ -14,13 +14,13 @@ definitions:
         type: string
       program:
         $ref: '#/definitions/models.Program'
-      programID:
+      program_id:
         type: integer
-      updatedAt:
+      updated_at:
         type: string
       user:
         $ref: '#/definitions/models.User'
-      userID:
+      user_id:
         type: integer
     type: object
   models.AdMetaData:
@@ -51,33 +51,33 @@ definitions:
     - TypeWallet
   models.Program:
     properties:
-      bidPrice:
+      bid_price:
         type: number
       budget:
         type: number
-      createdAt:
+      created_at:
         type: string
       description:
         type: string
-      endDate:
+      end_date:
         type: string
       id:
         type: integer
-      isActive:
+      is_active:
         type: boolean
-      isVerified:
+      is_verified:
         type: boolean
       metadata:
         $ref: '#/definitions/models.ProgramMetaData'
       name:
         type: string
-      startDate:
+      start_date:
         type: string
-      updatedAt:
+      updated_at:
         type: string
       user:
         $ref: '#/definitions/models.User'
-      userID:
+      user_id:
         type: integer
     type: object
   models.ProgramMetaData:
@@ -112,7 +112,7 @@ definitions:
     type: object
   models.Site:
     properties:
-      createdAt:
+      created_at:
         type: string
       domain:
         type: string
@@ -120,19 +120,19 @@ definitions:
         type: integer
       identifier:
         type: string
-      isActive:
+      is_active:
         type: boolean
-      isVerified:
+      is_verified:
         type: boolean
       metadata:
         $ref: '#/definitions/models.SiteMetaData'
       name:
         type: string
-      updatedAt:
+      updated_at:
         type: string
       user:
         $ref: '#/definitions/models.User'
-      userID:
+      user_id:
         type: integer
     type: object
   models.SiteMetaData:
@@ -192,15 +192,15 @@ definitions:
     - TypePayout
   models.User:
     properties:
-      createdAt:
+      created_at:
         type: string
       email:
         type: string
       id:
         type: integer
-      isActive:
+      is_active:
         type: boolean
-      isVerified:
+      is_verified:
         type: boolean
       metadata:
         $ref: '#/definitions/models.UserMetaData'
@@ -208,9 +208,9 @@ definitions:
         type: string
       password:
         type: string
-      updatedAt:
+      updated_at:
         type: string
-      userType:
+      user_type:
         $ref: '#/definitions/models.UserType'
     type: object
   models.UserMetaData:
@@ -227,7 +227,7 @@ definitions:
     - RoleAdvertiser
   models.Zone:
     properties:
-      createdAt:
+      created_at:
         type: string
       id:
         type: integer
@@ -239,15 +239,15 @@ definitions:
         type: string
       site:
         $ref: '#/definitions/models.Site'
-      siteID:
+      site_id:
         type: integer
-      updatedAt:
+      updated_at:
         type: string
       user:
         $ref: '#/definitions/models.User'
-      userID:
+      user_id:
         type: integer
-      zoneType:
+      zone_type:
         $ref: '#/definitions/models.ZoneType'
     type: object
   models.ZoneMetaData:

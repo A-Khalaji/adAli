@@ -1443,10 +1443,10 @@
         "models.Ad": {
             "type": "object",
             "properties": {
-                "adType": {
+                "ad_type": {
                     "$ref": "#/definitions/models.AdType"
                 },
-                "createdAt": {
+                "created_at": {
                     "type": "string"
                 },
                 "id": {
@@ -1461,16 +1461,16 @@
                 "program": {
                     "$ref": "#/definitions/models.Program"
                 },
-                "programID": {
+                "program_id": {
                     "type": "integer"
                 },
-                "updatedAt": {
+                "updated_at": {
                     "type": "string"
                 },
                 "user": {
                     "$ref": "#/definitions/models.User"
                 },
-                "userID": {
+                "user_id": {
                     "type": "integer"
                 }
             }
@@ -1511,28 +1511,28 @@
         "models.Program": {
             "type": "object",
             "properties": {
-                "bidPrice": {
+                "bid_price": {
                     "type": "number"
                 },
                 "budget": {
                     "type": "number"
                 },
-                "createdAt": {
+                "created_at": {
                     "type": "string"
                 },
                 "description": {
                     "type": "string"
                 },
-                "endDate": {
+                "end_date": {
                     "type": "string"
                 },
                 "id": {
                     "type": "integer"
                 },
-                "isActive": {
+                "is_active": {
                     "type": "boolean"
                 },
-                "isVerified": {
+                "is_verified": {
                     "type": "boolean"
                 },
                 "metadata": {
@@ -1541,16 +1541,16 @@
                 "name": {
                     "type": "string"
                 },
-                "startDate": {
+                "start_date": {
                     "type": "string"
                 },
-                "updatedAt": {
+                "updated_at": {
                     "type": "string"
                 },
                 "user": {
                     "$ref": "#/definitions/models.User"
                 },
-                "userID": {
+                "user_id": {
                     "type": "integer"
                 }
             }
@@ -1604,7 +1604,7 @@
         "models.Site": {
             "type": "object",
             "properties": {
-                "createdAt": {
+                "created_at": {
                     "type": "string"
                 },
                 "domain": {
@@ -1616,10 +1616,10 @@
                 "identifier": {
                     "type": "string"
                 },
-                "isActive": {
+                "is_active": {
                     "type": "boolean"
                 },
-                "isVerified": {
+                "is_verified": {
                     "type": "boolean"
                 },
                 "metadata": {
@@ -1628,13 +1628,13 @@
                 "name": {
                     "type": "string"
                 },
-                "updatedAt": {
+                "updated_at": {
                     "type": "string"
                 },
                 "user": {
                     "$ref": "#/definitions/models.User"
                 },
-                "userID": {
+                "user_id": {
                     "type": "integer"
                 }
             }
@@ -1718,7 +1718,7 @@
         "models.User": {
             "type": "object",
             "properties": {
-                "createdAt": {
+                "created_at": {
                     "type": "string"
                 },
                 "email": {
@@ -1727,10 +1727,10 @@
                 "id": {
                     "type": "integer"
                 },
-                "isActive": {
+                "is_active": {
                     "type": "boolean"
                 },
-                "isVerified": {
+                "is_verified": {
                     "type": "boolean"
                 },
                 "metadata": {
@@ -1742,10 +1742,10 @@
                 "password": {
                     "type": "string"
                 },
-                "updatedAt": {
+                "updated_at": {
                     "type": "string"
                 },
-                "userType": {
+                "user_type": {
                     "$ref": "#/definitions/models.UserType"
                 }
             }
@@ -1769,7 +1769,7 @@
         "models.Zone": {
             "type": "object",
             "properties": {
-                "createdAt": {
+                "created_at": {
                     "type": "string"
                 },
                 "id": {
@@ -1787,19 +1787,19 @@
                 "site": {
                     "$ref": "#/definitions/models.Site"
                 },
-                "siteID": {
+                "site_id": {
                     "type": "integer"
                 },
-                "updatedAt": {
+                "updated_at": {
                     "type": "string"
                 },
                 "user": {
                     "$ref": "#/definitions/models.User"
                 },
-                "userID": {
+                "user_id": {
                     "type": "integer"
                 },
-                "zoneType": {
+                "zone_type": {
                     "$ref": "#/definitions/models.ZoneType"
                 }
             }

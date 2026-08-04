@@ -1,7 +1,10 @@
 package main
 
 import (
+	"adAli/internal/cache"
 	"adAli/internal/database"
+	"flag"
+	"log"
 
 	"github.com/gin-gonic/gin"
 )
@@ -23,8 +26,18 @@ import (
 // @tag.name        Report
 // @tag.name        Transaction
 func main() {
-    database.Connect()
+	preloadCache := flag.Bool("load_cache", false, "load into redis")
+	flag.Parse()
+
+	database.Connect()
 	database.ConnectRedis()
+
+	if *preloadCache {
+		if err := cache.Preload(); err != nil {
+			log.Fatal(err)
+		}
+		log.Println("cache was loaded successfully")
+	}
 
 	router := gin.Default()
 
