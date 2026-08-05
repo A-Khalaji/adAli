@@ -3,9 +3,15 @@ package cache
 import (
 	"adAli/internal/database"
 	"adAli/internal/models"
+	"context"
 )
 
 func Preload() error {
+
+	if err := database.Redis.FlushDB(context.Background()).Err(); err != nil {
+		return err
+	}
+
 	var programs []models.Program
 	if err := database.DB.Find(&programs).Error; err != nil {
 		return err
@@ -27,7 +33,7 @@ func Preload() error {
 			return err
 		}
 	}
-	
+
 	var sites []models.Site
 	if err := database.DB.Find(&sites).Error; err != nil {
 		return err
@@ -38,7 +44,7 @@ func Preload() error {
 			return err
 		}
 	}
-	
+
 	var zones []models.Zone
 	if err := database.DB.Find(&zones).Error; err != nil {
 		return err

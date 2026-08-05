@@ -21,6 +21,10 @@ type Ad struct {
 	AdType AdType `gorm:"type:ad_type;not null" queryParam:"ad_type" json:"ad_type"`
 	CreatedAt time.Time `queryParam:"created_at" json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
+	
+	IsActive bool `gorm:"default:true" queryParam:"is_active" json:"is_active"`
+	IsVerified bool `gorm:"default:false" queryParam:"is_verified" json:"is_verified"`
+	
 	Metadata AdMetaData `gorm:"type:jsonb" json:"metadata"`
 }
 
@@ -35,6 +39,8 @@ const (
 
 
 type AdMetaData struct {
+   	Keyword  string `json:"keyword"`
+	Category string `json:"category"`
 }
 
 

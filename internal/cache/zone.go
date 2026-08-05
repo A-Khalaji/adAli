@@ -26,6 +26,8 @@ func SetZone(zone models.Zone) error {
 		"identifier": zone.Identifier,
 		"created_at": zone.CreatedAt.Format(time.RFC3339),
 		"updated_at": zone.UpdatedAt.Format(time.RFC3339),
+		"is_active":   strconv.FormatBool(zone.IsActive),
+		"is_verified": strconv.FormatBool(zone.IsVerified),
 		"metadata":   string(metadata),
 	}
 

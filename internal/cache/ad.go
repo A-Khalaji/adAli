@@ -25,6 +25,8 @@ func SetAd(ad models.Ad) error {
 		"ad_type":    string(ad.AdType),
 		"created_at": ad.CreatedAt.Format(time.RFC3339),
 		"updated_at": ad.UpdatedAt.Format(time.RFC3339),
+		"is_active":   strconv.FormatBool(ad.IsActive),
+		"is_verified": strconv.FormatBool(ad.IsVerified),
 		"metadata":   string(metadata),
 	}
 

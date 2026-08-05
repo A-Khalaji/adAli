@@ -24,6 +24,9 @@ type Zone struct {
 	CreatedAt time.Time `queryParam:"created_at" json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 
+	IsActive bool `gorm:"default:true" queryParam:"is_active" json:"is_active"`
+	IsVerified bool `gorm:"default:false" queryParam:"is_verified" json:"is_verified"`
+	
 	Metadata ZoneMetaData `gorm:"type:jsonb" json:"metadata"`
 }
 
@@ -36,6 +39,8 @@ const (
 )
 
 type ZoneMetaData struct {
+	Keyword  string `json:"keyword"`
+	Category string `json:"category"`
 }
 
 func (m *ZoneMetaData) Scan(value any) error {
