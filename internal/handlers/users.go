@@ -25,7 +25,7 @@ import (
 //	@Description
 //	@Description	Examples:
 //	@Description	/users?filter=is_active:true
-//	@Description	/users?filter=program_id:1
+//	@Description	/users?filter=user_id:1
 //	@Description	/users?filter=bid_price>=1000
 //	@Description	/users?order_by=bid_price&sort=desc
 //	@Description	/users?order_by=created_at&order_by=bid_price&sort=desc&sort=asc
@@ -120,31 +120,32 @@ func CreateUser(c *gin.Context) {
 //	@Failure		500		{object}	map[string]string
 //	@Router			/users/{id} [put]
 func UpdateUser(c *gin.Context) {
-	id := c.Param("id")
-
+    id := c.Param("id")
+   
 	var user models.User
 	if err := database.DB.First(&user, id).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
-			"error": "User not found",
+			"error": "user not found",
 		})
 		return
 	}
-
-	var updatedUser models.User
-	if err := c.ShouldBindJSON(&updatedUser); err != nil {
+   
+	var updates map[string]any
+   
+	if err := c.ShouldBindJSON(&updates); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
 		})
 		return
 	}
-
-	if err := database.DB.Model(&user).Updates(updatedUser).Error; err != nil {
+   
+	if err := database.DB.Model(&user).Updates(updates).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})
 		return
 	}
-
+	
 	c.JSON(http.StatusOK, user)
 }
 

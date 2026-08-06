@@ -3,12 +3,11 @@ package cache
 import (
 	"adAli/internal/database"
 	"adAli/internal/models"
-	"context"
 )
 
 func Preload() error {
 
-	if err := database.Redis.FlushDB(context.Background()).Err(); err != nil {
+	if err := database.Redis.FlushDB(database.Ctx).Err(); err != nil {
 		return err
 	}
 

@@ -127,8 +127,8 @@ func CreateSite(c *gin.Context) {
 //	@Failure		500		{object}	map[string]string
 //	@Router			/sites/{id} [put]
 func UpdateSite(c *gin.Context) {
-	id := c.Param("id")
-
+    id := c.Param("id")
+   
 	var site models.Site
 	if err := database.DB.First(&site, id).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
@@ -136,29 +136,37 @@ func UpdateSite(c *gin.Context) {
 		})
 		return
 	}
-
-	var updatedSite models.Site
-	if err := c.ShouldBindJSON(&updatedSite); err != nil {
+   
+	var updates map[string]any
+   
+	if err := c.ShouldBindJSON(&updates); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
 		})
 		return
 	}
-
-	if err := database.DB.Model(&site).Updates(updatedSite).Error; err != nil {
+   
+	if err := database.DB.Model(&site).Updates(updates).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})
 		return
 	}
-
+   
+	if err := database.DB.First(&site, id).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+   
 	if err := cache.UpSite(site); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})
 		return
 	}
-
+   
 	c.JSON(http.StatusOK, site)
 }
 

@@ -131,37 +131,46 @@ func CreateAd(c *gin.Context) {
 func UpdateAd(c *gin.Context) {
 	id := c.Param("id")
 
-	var ad models.Ad
-	if err := database.DB.First(&ad, id).Error; err != nil {
+	var oldAd models.Ad
+	if err := database.DB.First(&oldAd, id).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
 			"error": "ad not found",
 		})
 		return
 	}
 
-	var updatedAd models.Ad
-	if err := c.ShouldBindJSON(&updatedAd); err != nil {
+	var updates map[string]any
+
+	if err := c.ShouldBindJSON(&updates); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
 		})
 		return
 	}
 
-	if err := database.DB.Model(&ad).Updates(updatedAd).Error; err != nil {
+	if err := database.DB.Model(&oldAd).Updates(updates).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})
 		return
 	}
 
-	if err := cache.UpAd(ad); err != nil {
+	var newAd models.Ad
+	if err := database.DB.First(&newAd, id).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})
 		return
 	}
 
-	c.JSON(http.StatusOK, ad)
+	if err := cache.UpAd(oldAd, newAd); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, newAd)
 }
 
 // DeleteAd godoc
@@ -188,14 +197,14 @@ func DeleteAd(c *gin.Context) {
 		return
 	}
 
-	if err := database.DB.Delete(&ad).Error; err != nil {
+	if err := cache.DelAd(ad); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})
 		return
 	}
 
-	if err := cache.DelAd(ad.ID); err != nil {
+	if err := database.DB.Delete(&ad).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})

@@ -129,8 +129,8 @@ func CreateZone(c *gin.Context) {
 //	@Failure		500		{object}	map[string]string
 //	@Router			/zones/{id} [put]
 func UpdateZone(c *gin.Context) {
-	id := c.Param("id")
-
+    id := c.Param("id")
+   
 	var zone models.Zone
 	if err := database.DB.First(&zone, id).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
@@ -138,29 +138,37 @@ func UpdateZone(c *gin.Context) {
 		})
 		return
 	}
-
-	var updatedZone models.Zone
-	if err := c.ShouldBindJSON(&updatedZone); err != nil {
+   
+	var updates map[string]any
+   
+	if err := c.ShouldBindJSON(&updates); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
 		})
 		return
 	}
-
-	if err := database.DB.Model(&zone).Updates(updatedZone).Error; err != nil {
+   
+	if err := database.DB.Model(&zone).Updates(updates).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})
 		return
 	}
-
+   
+	if err := database.DB.First(&zone, id).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+   
 	if err := cache.UpZone(zone); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})
 		return
 	}
-
+   
 	c.JSON(http.StatusOK, zone)
 }
 
