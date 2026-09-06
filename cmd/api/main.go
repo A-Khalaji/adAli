@@ -32,6 +32,7 @@ func main() {
 	database.Connect()
 	database.ConnectRedis()
 
+
 	if *preloadCache {
 		if err := cache.Preload(); err != nil {
 			log.Fatal(err)
@@ -43,5 +44,5 @@ func main() {
 
 	Routes(router)
 
-	router.Run("localhost:8000")
+	router.Run("0.0.0.0:8000")
 }
