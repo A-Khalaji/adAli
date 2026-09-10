@@ -577,14 +577,14 @@
         },
         "/reports": {
             "get": {
-                "description": "Get all report or filter and order them using query parameters.\n\nFiltering operators:\n:   (equals)\n!:  (not equals)\n\u003e   (greater than)\n\u003e=  (greater than or equal)\n\u003c   (less than)\n\u003c=  (less than or equal)\n~   (contains, case-insensitive)\n\nExamples:\n/report?filter=is_active:true\n/report?filter=program_id:1\n/report?filter=bid_price\u003e=1000\n/report?order_by=bid_price\u0026sort=desc\n/report?order_by=created_at\u0026order_by=bid_price\u0026sort=desc\u0026sort=asc",
+                "description": "Get all reports or filter and order them using query parameters.\n\nFiltering operators:\n:   (equals)\n!:  (not equals)\n\u003e   (greater than)\n\u003e=  (greater than or equal)\n\u003c   (less than)\n\u003c=  (less than or equal)\n~   (contains)\n\nExamples:\n/reports?filter=ad_id:15\n/reports?filter=program_id:40\n/reports?filter=date\u003e=2026-09-01\n/reports?filter=views\u003e10\n/reports?filter=clicks\u003e5\n/reports?order_by=views\u0026sort=desc",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "Report"
                 ],
-                "summary": "Get report",
+                "summary": "Get reports",
                 "parameters": [
                     {
                         "type": "array",
@@ -962,7 +962,7 @@
         },
         "/users": {
             "get": {
-                "description": "Get all users or filter and order them using query parameters.\n\nFiltering operators:\n:   (equals)\n!:  (not equals)\n\u003e   (greater than)\n\u003e=  (greater than or equal)\n\u003c   (less than)\n\u003c=  (less than or equal)\n~   (contains, case-insensitive)\n\nExamples:\n/users?filter=is_active:true\n/users?filter=program_id:1\n/users?filter=bid_price\u003e=1000\n/users?order_by=bid_price\u0026sort=desc\n/users?order_by=created_at\u0026order_by=bid_price\u0026sort=desc\u0026sort=asc",
+                "description": "Get all users or filter and order them using query parameters.\n\nFiltering operators:\n:   (equals)\n!:  (not equals)\n\u003e   (greater than)\n\u003e=  (greater than or equal)\n\u003c   (less than)\n\u003c=  (less than or equal)\n~   (contains, case-insensitive)\n\nExamples:\n/users?filter=is_active:true\n/users?filter=user_id:1\n/users?filter=bid_price\u003e=1000\n/users?order_by=bid_price\u0026sort=desc\n/users?order_by=created_at\u0026order_by=bid_price\u0026sort=desc\u0026sort=asc",
                 "produces": [
                     "application/json"
                 ],
@@ -1449,8 +1449,17 @@
                 "created_at": {
                     "type": "string"
                 },
+                "destination_url": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
+                },
+                "is_active": {
+                    "type": "boolean"
+                },
+                "is_verified": {
+                    "type": "boolean"
                 },
                 "metadata": {
                     "$ref": "#/definitions/models.AdMetaData"
@@ -1476,7 +1485,15 @@
             }
         },
         "models.AdMetaData": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+                "category": {
+                    "type": "string"
+                },
+                "keyword": {
+                    "type": "string"
+                }
+            }
         },
         "models.AdType": {
             "type": "string",
@@ -1569,37 +1586,31 @@
         "models.Report": {
             "type": "object",
             "properties": {
-                "ad": {
-                    "$ref": "#/definitions/models.Ad"
-                },
-                "adID": {
+                "ad_id": {
                     "type": "integer"
+                },
+                "click_rate": {
+                    "type": "number"
                 },
                 "clicks": {
                     "type": "integer"
                 },
-                "id": {
+                "date": {
+                    "type": "string"
+                },
+                "program_id": {
                     "type": "integer"
                 },
-                "metadata": {
-                    "$ref": "#/definitions/models.ReportMetaData"
-                },
-                "reportDate": {
-                    "type": "string"
+                "site_id": {
+                    "type": "integer"
                 },
                 "views": {
                     "type": "integer"
                 },
-                "zone": {
-                    "$ref": "#/definitions/models.Zone"
-                },
-                "zoneID": {
+                "zone_id": {
                     "type": "integer"
                 }
             }
-        },
-        "models.ReportMetaData": {
-            "type": "object"
         },
         "models.Site": {
             "type": "object",
@@ -1778,6 +1789,12 @@
                 "identifier": {
                     "type": "string"
                 },
+                "is_active": {
+                    "type": "boolean"
+                },
+                "is_verified": {
+                    "type": "boolean"
+                },
                 "metadata": {
                     "$ref": "#/definitions/models.ZoneMetaData"
                 },
@@ -1805,7 +1822,15 @@
             }
         },
         "models.ZoneMetaData": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+                "category": {
+                    "type": "string"
+                },
+                "keyword": {
+                    "type": "string"
+                }
+            }
         },
         "models.ZoneType": {
             "type": "string",

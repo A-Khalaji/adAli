@@ -31,7 +31,7 @@ func main() {
 
 	database.Connect()
 	database.ConnectRedis()
-
+	database.ConnectClickHouse()
 
 	if *preloadCache {
 		if err := cache.Preload(); err != nil {

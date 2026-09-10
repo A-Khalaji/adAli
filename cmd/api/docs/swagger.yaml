@@ -6,8 +6,14 @@ definitions:
         $ref: '#/definitions/models.AdType'
       created_at:
         type: string
+      destination_url:
+        type: string
       id:
         type: integer
+      is_active:
+        type: boolean
+      is_verified:
+        type: boolean
       metadata:
         $ref: '#/definitions/models.AdMetaData'
       name:
@@ -24,6 +30,11 @@ definitions:
         type: integer
     type: object
   models.AdMetaData:
+    properties:
+      category:
+        type: string
+      keyword:
+        type: string
     type: object
   models.AdType:
     enum:
@@ -89,26 +100,22 @@ definitions:
     type: object
   models.Report:
     properties:
-      ad:
-        $ref: '#/definitions/models.Ad'
-      adID:
+      ad_id:
         type: integer
+      click_rate:
+        type: number
       clicks:
         type: integer
-      id:
-        type: integer
-      metadata:
-        $ref: '#/definitions/models.ReportMetaData'
-      reportDate:
+      date:
         type: string
+      program_id:
+        type: integer
+      site_id:
+        type: integer
       views:
         type: integer
-      zone:
-        $ref: '#/definitions/models.Zone'
-      zoneID:
+      zone_id:
         type: integer
-    type: object
-  models.ReportMetaData:
     type: object
   models.Site:
     properties:
@@ -233,6 +240,10 @@ definitions:
         type: integer
       identifier:
         type: string
+      is_active:
+        type: boolean
+      is_verified:
+        type: boolean
       metadata:
         $ref: '#/definitions/models.ZoneMetaData'
       name:
@@ -251,6 +262,11 @@ definitions:
         $ref: '#/definitions/models.ZoneType'
     type: object
   models.ZoneMetaData:
+    properties:
+      category:
+        type: string
+      keyword:
+        type: string
     type: object
   models.ZoneType:
     enum:
@@ -682,7 +698,7 @@ paths:
   /reports:
     get:
       description: |-
-        Get all report or filter and order them using query parameters.
+        Get all reports or filter and order them using query parameters.
 
         Filtering operators:
         :   (equals)
@@ -691,14 +707,15 @@ paths:
         >=  (greater than or equal)
         <   (less than)
         <=  (less than or equal)
-        ~   (contains, case-insensitive)
+        ~   (contains)
 
         Examples:
-        /report?filter=is_active:true
-        /report?filter=program_id:1
-        /report?filter=bid_price>=1000
-        /report?order_by=bid_price&sort=desc
-        /report?order_by=created_at&order_by=bid_price&sort=desc&sort=asc
+        /reports?filter=ad_id:15
+        /reports?filter=program_id:40
+        /reports?filter=date>=2026-09-01
+        /reports?filter=views>10
+        /reports?filter=clicks>5
+        /reports?order_by=views&sort=desc
       parameters:
       - collectionFormat: csv
         description: Filter expression. Can be repeated.
@@ -743,7 +760,7 @@ paths:
             additionalProperties:
               type: string
             type: object
-      summary: Get report
+      summary: Get reports
       tags:
       - Report
   /sites:
@@ -1006,7 +1023,7 @@ paths:
 
         Examples:
         /users?filter=is_active:true
-        /users?filter=program_id:1
+        /users?filter=user_id:1
         /users?filter=bid_price>=1000
         /users?order_by=bid_price&sort=desc
         /users?order_by=created_at&order_by=bid_price&sort=desc&sort=asc

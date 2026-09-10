@@ -17,6 +17,7 @@ func SetAd(ad models.Ad) error {
 		"program_id":  strconv.FormatUint(uint64(ad.ProgramID), 10),
 		"name":        ad.Name,
 		"ad_type":     string(ad.AdType),
+		"destination_url": ad.DestinationURL,
 		"category":    ad.Metadata.Category,
 		"keyword":     ad.Metadata.Keyword,
 		"created_at":  ad.CreatedAt.Format(time.RFC3339),

@@ -19,6 +19,8 @@ type Ad struct {
 
 	Name string `gorm:"size:100;not null" queryParam:"name" json:"name"`
 	AdType AdType `gorm:"type:ad_type;not null" queryParam:"ad_type" json:"ad_type"`
+	DestinationURL string `gorm:"type:text;not null" json:"destination_url"`
+	
 	CreatedAt time.Time `queryParam:"created_at" json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 	
