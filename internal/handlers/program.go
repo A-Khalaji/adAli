@@ -5,6 +5,7 @@ import (
 	"adAli/internal/database"
 	"adAli/internal/filter"
 	"adAli/internal/models"
+	"adAli/internal/service"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -107,6 +108,13 @@ func CreateProgram(c *gin.Context) {
 		return
 	}
 
+	if err := service.AddProgramToSchedule(program); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
 	c.JSON(http.StatusCreated, program)
 }
 
@@ -127,8 +135,8 @@ func CreateProgram(c *gin.Context) {
 //	@Failure		500			{object}	map[string]string
 //	@Router			/programs/{id} [put]
 func UpdateProgram(c *gin.Context) {
-    id := c.Param("id")
-   
+	id := c.Param("id")
+
 	var program models.Program
 	if err := database.DB.First(&program, id).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
@@ -136,37 +144,37 @@ func UpdateProgram(c *gin.Context) {
 		})
 		return
 	}
-   
+
 	var updates map[string]any
-   
+
 	if err := c.ShouldBindJSON(&updates); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
 		})
 		return
 	}
-   
+
 	if err := database.DB.Model(&program).Updates(updates).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})
 		return
 	}
-   
+
 	if err := database.DB.First(&program, id).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})
 		return
 	}
-   
+
 	if err := cache.UpProgram(program); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})
 		return
 	}
-   
+
 	c.JSON(http.StatusOK, program)
 }
 

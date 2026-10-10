@@ -7,10 +7,6 @@ import (
 
 func Preload() error {
 
-	if err := database.Redis.FlushDB(database.Ctx).Err(); err != nil {
-		return err
-	}
-
 	var programs []models.Program
 	if err := database.DB.Find(&programs).Error; err != nil {
 		return err

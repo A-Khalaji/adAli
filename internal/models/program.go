@@ -17,7 +17,7 @@ type Program struct {
 	Name string `gorm:"size:100;not null" queryParam:"name" json:"name"`
 	Description string `gorm:"type:text" json:"description"`
 	Budget float64 `gorm:"type:numeric(12,2);not null" queryParam:"budget" json:"budget"`
-	BidPrice float64 `gorm:"type:numeric(10,2);not null" queryParam:"bid_price" json:"bid_price"`
+	BidPrice float64 `gorm:"type:numeric(12,2);not null" queryParam:"bid_price" json:"bid_price"`
 	StartDate *time.Time `queryParam:"start_date" json:"start_date"`
 	EndDate *time.Time `queryParam:"end_date" json:"end_date"`
 	IsActive bool `gorm:"default:true" queryParam:"is_active" json:"is_active"`

@@ -3,6 +3,7 @@ package main
 import (
 	"adAli/internal/cache"
 	"adAli/internal/database"
+	"adAli/internal/service"
 	"flag"
 	"log"
 
@@ -38,6 +39,10 @@ func main() {
 			log.Fatal(err)
 		}
 		log.Println("cache was loaded successfully")
+	}
+
+	if err := service.InitializeScheduleFor100Days(); err != nil {
+		log.Fatal(err)
 	}
 
 	router := gin.Default()
